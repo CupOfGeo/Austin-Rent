@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/api/core/class/Dataset",
+  "unique_key": "https://crawlee.dev/api/core/class/dataset",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "vHM8cvYZQuS6EqX",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/api/core/class/Dataset\",\n  \"unique_key\": \"https://crawlee.dev/api/core/class/dataset\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"vHM8cvYZQuS6EqX\",\n  \"order_no\": \"1731374448812.277079\"\n}",
+  "order_no": "1731374448812.277079"
+}

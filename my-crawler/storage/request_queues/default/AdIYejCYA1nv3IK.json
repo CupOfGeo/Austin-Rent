@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/docs/3.1/guides/jsdom-crawler-guide",
+  "unique_key": "https://crawlee.dev/docs/3.1/guides/jsdom-crawler-guide",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "AdIYejCYA1nv3IK",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/3.1/guides/jsdom-crawler-guide\",\n  \"unique_key\": \"https://crawlee.dev/docs/3.1/guides/jsdom-crawler-guide\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"AdIYejCYA1nv3IK\",\n  \"order_no\": \"1731374467777.384996\"\n}",
+  "order_no": "1731374467777.384996"
+}

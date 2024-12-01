@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/api/utils/interface/MemoryInfo",
+  "unique_key": "https://crawlee.dev/api/utils/interface/memoryinfo",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "KKMkaV97lin8rwh",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/api/utils/interface/MemoryInfo\",\n  \"unique_key\": \"https://crawlee.dev/api/utils/interface/memoryinfo\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"KKMkaV97lin8rwh\",\n  \"order_no\": \"1731374475118.880987\"\n}",
+  "order_no": "1731374475118.880987"
+}

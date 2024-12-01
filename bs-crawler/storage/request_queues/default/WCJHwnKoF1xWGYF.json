@@ -1,0 +1,20 @@
+{
+  "url": "https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524",
+  "unique_key": "https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "state": 3
+    },
+    "label": "JSON"
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": "https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524",
+  "handled_at": "2024-12-01 11:15:15.034547+00:00",
+  "id": "WCJHwnKoF1xWGYF",
+  "json_": "{\n  \"url\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"unique_key\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"state\": 3\n    },\n    \"label\": \"JSON\"\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"handled_at\": \"2024-12-01 11:15:15.034547+00:00\",\n  \"id\": \"WCJHwnKoF1xWGYF\",\n  \"order_no\": null\n}",
+  "order_no": null
+}

@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/api/utils/class/RobotsFile",
+  "unique_key": "https://crawlee.dev/api/utils/class/robotsfile",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "kkUdlWN3FWOmTDK",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/api/utils/class/RobotsFile\",\n  \"unique_key\": \"https://crawlee.dev/api/utils/class/robotsfile\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"kkUdlWN3FWOmTDK\",\n  \"order_no\": \"1731374475099.224091\"\n}",
+  "order_no": "1731374475099.224091"
+}

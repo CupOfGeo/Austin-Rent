@@ -1,0 +1,20 @@
+{
+  "url": "https://crawlee.dev/docs/deployment/aws-cheerio",
+  "unique_key": "https://crawlee.dev/docs/deployment/aws-cheerio",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "state": 3,
+      "crawlDepth": 1
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": "https://crawlee.dev/docs/deployment/aws-cheerio",
+  "handled_at": "2024-11-12 01:21:15.133546+00:00",
+  "id": "AMuz93rNjDktRO2",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/deployment/aws-cheerio\",\n  \"unique_key\": \"https://crawlee.dev/docs/deployment/aws-cheerio\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"state\": 3,\n      \"crawlDepth\": 1\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": \"https://crawlee.dev/docs/deployment/aws-cheerio\",\n  \"handled_at\": \"2024-11-12 01:21:15.133546+00:00\",\n  \"id\": \"AMuz93rNjDktRO2\",\n  \"order_no\": null\n}",
+  "order_no": null
+}

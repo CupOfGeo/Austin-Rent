@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/docs/3.5/examples/basic-crawler",
+  "unique_key": "https://crawlee.dev/docs/3.5/examples/basic-crawler",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 3
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "HH6JfTT66bOti2d",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/3.5/examples/basic-crawler\",\n  \"unique_key\": \"https://crawlee.dev/docs/3.5/examples/basic-crawler\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 3\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"HH6JfTT66bOti2d\",\n  \"order_no\": \"1731374490567.785978\"\n}",
+  "order_no": "1731374490567.785978"
+}

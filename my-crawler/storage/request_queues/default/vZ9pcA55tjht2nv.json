@@ -1,0 +1,20 @@
+{
+  "url": "https://crawlee.dev/docs/next/examples",
+  "unique_key": "https://crawlee.dev/docs/next/examples",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "state": 3,
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": "https://crawlee.dev/docs/next/examples",
+  "handled_at": "2024-11-12 01:21:26.349654+00:00",
+  "id": "vZ9pcA55tjht2nv",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/next/examples\",\n  \"unique_key\": \"https://crawlee.dev/docs/next/examples\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"state\": 3,\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": \"https://crawlee.dev/docs/next/examples\",\n  \"handled_at\": \"2024-11-12 01:21:26.349654+00:00\",\n  \"id\": \"vZ9pcA55tjht2nv\",\n  \"order_no\": null\n}",
+  "order_no": null
+}

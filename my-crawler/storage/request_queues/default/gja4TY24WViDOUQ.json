@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/docs/3.2/guides/avoid-blocking",
+  "unique_key": "https://crawlee.dev/docs/3.2/guides/avoid-blocking",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "gja4TY24WViDOUQ",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/3.2/guides/avoid-blocking\",\n  \"unique_key\": \"https://crawlee.dev/docs/3.2/guides/avoid-blocking\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"gja4TY24WViDOUQ\",\n  \"order_no\": \"1731374467740.370989\"\n}",
+  "order_no": "1731374467740.370989"
+}

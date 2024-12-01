@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/api/core/function/purgeDefaultStorages",
+  "unique_key": "https://crawlee.dev/api/core/function/purgedefaultstorages",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "0NQTCdzQ7tCcLjw",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/api/core/function/purgeDefaultStorages\",\n  \"unique_key\": \"https://crawlee.dev/api/core/function/purgedefaultstorages\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"0NQTCdzQ7tCcLjw\",\n  \"order_no\": \"1731374449286.109924\"\n}",
+  "order_no": "1731374449286.109924"
+}

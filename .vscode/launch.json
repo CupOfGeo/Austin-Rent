@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Module",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bs-crawler",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/bs-crawler",
+            "justMyCode": true,
+            "python": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-C0QAiYbG-py3.12/bin/python",
+            "env": {
+                "PYTHONPATH": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-C0QAiYbG-py3.12"
+            },
+            "args": [],
+            
+        }
+    ]
+}

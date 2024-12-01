@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/docs/3.0/introduction",
+  "unique_key": "https://crawlee.dev/docs/3.0/introduction",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "moZtnamOBmu2120",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/3.0/introduction\",\n  \"unique_key\": \"https://crawlee.dev/docs/3.0/introduction\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"moZtnamOBmu2120\",\n  \"order_no\": \"1731374464294.250011\"\n}",
+  "order_no": "1731374464294.250011"
+}

@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/docs/3.6/examples/crawl-sitemap",
+  "unique_key": "https://crawlee.dev/docs/3.6/examples/crawl-sitemap",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 3
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "AT2vvx7ertL7cDa",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/3.6/examples/crawl-sitemap\",\n  \"unique_key\": \"https://crawlee.dev/docs/3.6/examples/crawl-sitemap\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 3\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"AT2vvx7ertL7cDa\",\n  \"order_no\": \"1731374489716.617107\"\n}",
+  "order_no": "1731374489716.617107"
+}

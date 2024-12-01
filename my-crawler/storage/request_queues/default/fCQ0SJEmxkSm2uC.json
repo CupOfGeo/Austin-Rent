@@ -1,0 +1,19 @@
+{
+  "url": "https://crawlee.dev/docs/3.2/introduction/real-world-project",
+  "unique_key": "https://crawlee.dev/docs/3.2/introduction/real-world-project",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "__crawlee": {
+      "crawlDepth": 2
+    }
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "fCQ0SJEmxkSm2uC",
+  "json_": "{\n  \"url\": \"https://crawlee.dev/docs/3.2/introduction/real-world-project\",\n  \"unique_key\": \"https://crawlee.dev/docs/3.2/introduction/real-world-project\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"crawlDepth\": 2\n    }\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"fCQ0SJEmxkSm2uC\",\n  \"order_no\": \"1731374461364.370108\"\n}",
+  "order_no": "1731374461364.370108"
+}
