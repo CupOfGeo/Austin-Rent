@@ -30,22 +30,25 @@ message sent to pubsub
 ```json
 {
   "kind": "storage#object",
-  "id": "scraper-responses/0193799b-87a4-8cf6-9dee-ad2935b6eef6.json/1732912056525725",
-  "selfLink": "https://www.googleapis.com/storage/v1/b/scraper-responses/o/0193799b-87a4-8cf6-9dee-ad2935b6eef6.json",
-  "name": "0193799b-87a4-8cf6-9dee-ad2935b6eef6.json",
+  "id": "scraper-responses/01938823-0842-84bd-9d99-271570ab6365.json/1733155818279998",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/scraper-responses/o/01938823-0842-84bd-9d99-271570ab6365.json",
+  "name": "01938823-0842-84bd-9d99-271570ab6365.json",
   "bucket": "scraper-responses",
-  "generation": "1732912056525725",
+  "generation": "1733155818279998",
   "metageneration": "1",
   "contentType": "text/plain",
-  "timeCreated": "2024-11-29T20:27:36.537Z",
-  "updated": "2024-11-29T20:27:36.537Z",
+  "timeCreated": "2024-12-02T16:10:18.287Z",
+  "updated": "2024-12-02T16:10:18.287Z",
   "storageClass": "STANDARD",
-  "timeStorageClassUpdated": "2024-11-29T20:27:36.537Z",
-  "size": "410",
-  "md5Hash": "fnBQF16VP07yzPsXdN6c9Q==",
-  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/scraper-responses/o/0193799b-87a4-8cf6-9dee-ad2935b6eef6.json?generation=1732912056525725&alt=media",
-  "crc32c": "cROO0w==",
-  "etag": "CJ3HubywgooDEAE="
+  "timeStorageClassUpdated": "2024-12-02T16:10:18.287Z",
+  "size": "629357",
+  "md5Hash": "AN6sI8olmJOvsbD6l6ASyw==",
+  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/scraper-responses/o/01938823-0842-84bd-9d99-271570ab6365.json?generation=1733155818279998&alt=media",
+  "metadata": {
+    "building_id": "12345"
+  },
+  "crc32c": "+ibZXg==",
+  "etag": "CL6ojse8iYoDEAE="
 }
 ```
 

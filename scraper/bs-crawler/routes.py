@@ -15,15 +15,16 @@ storage_client = storage.Client()
 bucket = storage_client.bucket("scraper-responses")
 
 
-def save_to_gcs(content):
+def save_to_gcs(content, building_id):
     filename = f'{uuid6.uuid8()}.json'
-    upload_string_to_gcs(bucket, json.dumps(content), filename)
+    upload_string_to_gcs(bucket, json.dumps(content), filename, building_id)
 
 
 @router.default_handler
 async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
-    logger.debug('Processing', url={context.request.url})
+    building_id = context.request.user_data.model_extra.get('building_id')
+    logger.debug('Processing', url={context.request.url}, building_id=building_id)
     http_response = context.http_response
     content = http_response.read() if http_response else None
     if content:
@@ -46,12 +47,13 @@ async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
             'content': content_str if content else None,
         }
 
-    save_to_gcs(scrape_response)
+    save_to_gcs(scrape_response, building_id)
 
 @router.handler('JSON')
 async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
-    logger.debug('Processing', url={context.request.url})
+    building_id = context.request.user_data.model_extra.get('building_id')
+    logger.debug('Processing', url={context.request.url}, building_id=building_id)
     http_response = context.http_response
     try:
         json_content = json.load(http_response)
@@ -66,11 +68,12 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
             'requested_url': context.request.url,
             'loaded_url': context.request.loaded_url,
             'handled_at': context.request.handled_at,
+            'building_id': building_id
         },
         'content': json_content if json_content else None
     }
 
-    save_to_gcs(scrape_response)
+    save_to_gcs(scrape_response, building_id)
 
 
 

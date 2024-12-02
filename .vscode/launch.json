@@ -10,8 +10,8 @@
             "request": "launch",
             "module": "bs-crawler",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}/bs-crawler",
-            "justMyCode": true,
+            "cwd": "${workspaceFolder}/scraper",
+            "justMyCode": false,
             "python": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-C0QAiYbG-py3.12/bin/python",
             "env": {
                 "PYTHONPATH": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-C0QAiYbG-py3.12"
