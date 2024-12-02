@@ -5,7 +5,7 @@ resource "google_cloud_run_service" "scraper" {
     spec {
       service_account_name = google_service_account.scraper_sa.email
       containers {
-        image = "us-central1-docker.pkg.dev/austin-rent/image-repo/bs-crawler:latest"
+        image = "us-central1-docker.pkg.dev/austin-rent/image-repo/scraper:latest"
         ports {
           container_port = 8080
         }
