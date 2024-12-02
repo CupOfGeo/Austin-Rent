@@ -16,6 +16,8 @@ env:
   GAR_LOCATION: "us-central1"
   REGION: 'us-central1'
   REPO: 'image-repo'
+  WIF_SERVICE_ACCOUNT: 'github-sa@austin-rent.iam.gserviceaccount.com'
+  WIF_PROVIDER: 'projects/951404538114/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
 
 jobs:
   deploy:
@@ -33,8 +35,8 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           token_format: 'access_token'
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+          workload_identity_provider: '${{ env.WIF_PROVIDER }}'
+          service_account: '${{ env.WIF_SERVICE_ACCOUNT }}'
 
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: Login to GAR
