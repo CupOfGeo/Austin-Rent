@@ -11,14 +11,15 @@ resource "google_iam_workload_identity_pool_provider" "main" {
   workload_identity_pool_provider_id = "github-provider"
   display_name                       = "GitHub provider"
   attribute_mapping = {
-    "google.subject"  = "assertion.sub"
-    "attribute.actor" = "assertion.actor"
-    "attribute.aud"   = "assertion.aud"
+    "google.subject"       = "assertion.sub"
+    "attribute.actor"      = "assertion.actor"
+    "attribute.aud"        = "assertion.aud"
+    "attribute.repository" = "assertion.repository"
   }
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
   }
-  attribute_condition = "attribute.repository_owner == '${var.github_organization}'"
+  attribute_condition = "attribute.repository == '${var.github_organization_repo}'"
 }
 
 resource "google_service_account" "gh_sa" {
@@ -56,8 +57,10 @@ resource "google_project_iam_member" "artifactregistry" {
   role    = "roles/artifactregistry.writer"
 }
 
-resource "google_project_iam_member" "wif" {
-  project = var.gcp_project
-  role    = "roles/iam.workloadIdentityUser"
-  member  = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.repository/${var.github_organization}"
+resource "google_service_account_iam_binding" "workload_identity_user_binding" {
+  service_account_id = google_service_account.gh_sa.name
+  role               = "roles/iam.workloadIdentityUser"
+  members = [
+    "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.repository/${var.github_organization_repo}",
+  ]
 }

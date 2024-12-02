@@ -12,7 +12,7 @@ on:
           - 'bs-crawler'
 
 env:
-  PROJECT_ID: "Austin-Rent"
+  PROJECT_ID: "austin-rent"
   GAR_LOCATION: "us-central1"
   REGION: 'us-central1'
   REPO: 'image-repo'

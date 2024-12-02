@@ -21,6 +21,9 @@ variable "storage_class" {
 }
 variable "github_organization" {
   type        = string
+  description = "The GitHub repository org or user name"
+}
+variable "github_organization_repo" {
+  type        = string
   description = "The GitHub repository org/repo-name"
-
 }
