@@ -19,3 +19,8 @@ variable "storage_class" {
   type        = string
   description = "The storage class of the Storage Bucket to create"
 }
+variable "github_organization" {
+  type        = string
+  description = "The GitHub repository org/repo-name"
+
+}

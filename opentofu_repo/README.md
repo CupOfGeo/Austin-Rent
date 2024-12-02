@@ -13,8 +13,6 @@ gcloud iam service-accounts create tofu-admin --display-name "Tofu admin account
 
 gcloud projects add-iam-policy-binding austin-rent --member "serviceAccount:tofu-admin@austin-rent.iam.gserviceaccount.com" --role "roles/editor"
 
-gcloud iam service-accounts keys create ~/tofu-key.json --iam-account tofu-admin@austin-rent.iam.gserviceaccount.com
-
 gcloud projects add-iam-policy-binding austin-rent \
   --member="serviceAccount:tofu-admin@austin-rent.iam.gserviceaccount.com" \
   --role="roles/pubsub.admin"
@@ -26,8 +24,17 @@ gcloud projects add-iam-policy-binding austin-rent \
 gcloud projects add-iam-policy-binding austin-rent \
   --member="serviceAccount:tofu-admin@austin-rent.iam.gserviceaccount.com" \
   --role="roles/secretmanager.secretAccessor"
+
+gcloud iam service-accounts keys create ~/tofu-key.json --iam-account tofu-admin@austin-rent.iam.gserviceaccount.com
+
 ```
 Moved that key to secrets folder.
+
+## WIF setup 
+https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions
+
+So this service account should be the one that tofu uses in the CI/CD
+
 
 
 ## Enabling services 

@@ -1,8 +1,7 @@
 provider "google" {
-  credentials = file(var.gcp_auth_file)
-  project     = var.gcp_project
-  region      = var.gcp_region
-  zone        = "us-central1-c"
+  project = var.gcp_project
+  region  = var.gcp_region
+  zone    = "us-central1-c"
 }
 
 # apps 
@@ -40,8 +39,4 @@ resource "google_sql_user" "user" {
   name     = "admin"
   instance = google_sql_database_instance.austin_rent_instance.name
   password = data.google_secret_manager_secret_version.scraper_db_password_value.secret_data
-}
-
-output "instance_connection_name" {
-  value = google_sql_database_instance.austin_rent_instance.connection_name
 }
