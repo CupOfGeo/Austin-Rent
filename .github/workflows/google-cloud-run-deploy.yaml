@@ -6,10 +6,10 @@ on:
       app_name:
         description: 'App name to be deployed'
         required: true
-        default: 'bs-crawler'
+        default: 'scraper'
         type: choice
         options:
-          - 'bs-crawler'
+          - 'scraper'
 
 env:
   PROJECT_ID: "austin-rent"

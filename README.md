@@ -8,7 +8,7 @@ Main Mermaid diagram
 ## Github actions
 We use github actions but bc we are running a (ORTRTA). You have to manually trigger it and specify the app name so we don't rebuild and deploy ever app on push to main.
 
-Folder name dictates app name
+Folder name dictates app name same as cloud run name 
 
 
 
