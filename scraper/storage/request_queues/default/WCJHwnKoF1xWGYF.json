@@ -5,14 +5,17 @@
   "headers": {},
   "payload": null,
   "user_data": {
+    "__crawlee": {
+      "state": 3
+    },
     "label": "JSON",
     "building_id": 1
   },
   "retry_count": 0,
   "no_retry": false,
-  "loaded_url": null,
-  "handled_at": null,
+  "loaded_url": "https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524",
+  "handled_at": "2024-12-02 20:43:13.186073+00:00",
   "id": "WCJHwnKoF1xWGYF",
-  "json_": "{\n  \"url\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"unique_key\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"label\": \"JSON\",\n    \"building_id\": 1\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"WCJHwnKoF1xWGYF\",\n  \"order_no\": \"1733159979815.589905\"\n}",
-  "order_no": "1733159979815.589905"
+  "json_": "{\n  \"url\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"unique_key\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"__crawlee\": {\n      \"state\": 3\n    },\n    \"label\": \"JSON\",\n    \"building_id\": 1\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": \"https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524\",\n  \"handled_at\": \"2024-12-02 20:43:13.186073+00:00\",\n  \"id\": \"WCJHwnKoF1xWGYF\",\n  \"order_no\": null\n}",
+  "order_no": null
 }
