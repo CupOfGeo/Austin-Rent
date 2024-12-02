@@ -1,4 +1,48 @@
-# Lets build something that scrapes rent prices on Rainey street and uploads them to a database.
+# The One Repo To Rule Them All (ORTRTA)
+this is the common read me that will spread standards across multiple repos 
+
+Main Mermaid diagram
+```mermaid
+```
+
+## Github actions
+We use github actions but bc we are running a (ORTRTA). You have to manually trigger it and specify the app name so we don't rebuild and deploy ever app on push to main.
+
+Folder name dictates app name
+
+
+
+
+## Database 
+Postgres dbs 
+https://gist.github.com/kyledcline/9b7e864b89c269beb2c34e55fb0903b0
+
+naming convention. 
+    - underscores for table_name
+    - PK should be table_name_id
+
+Connecting to CloudSQL 
+https://cloud.google.com/sql/docs/mysql/connect-auth-proxy
+Note: if you are in a dev container use linux 64. Then move it to `mv cloud-sql-proxy ~/.local/bin/`
+
+```
+./cloud-sql-proxy --address 0.0.0.0 --port 5432 austin-rent:us-central1:austin-rent-db
+```
+
+
+# Secrets 
+
+for now I'm fine with just making new ones with gcloud 
+
+TODO this is bad bc the echo will eval anything with a `$`
+```bash
+echo -n "your-secure-password" | gcloud secrets create db-password --data-file=-
+```
+
+
+
+# Notes
+Lets build something that scrapes rent prices on Rainey street and uploads them to a database.
 
 My initial idea of the system.
 
@@ -19,37 +63,3 @@ Simple One service to rule them all.
 - save it to the db from here
 
 https://github.com/apify/crawlee-python
-
-# Common readme 
-this is the common read me that will spread standards across multiple repos 
-
-## Database 
-Postgres dbs 
-https://gist.github.com/kyledcline/9b7e864b89c269beb2c34e55fb0903b0
-
-naming convention. 
-    - underscores for table_name
-    - PK should be table_name_id
-
-Connecting to CloudSQL 
-https://cloud.google.com/sql/docs/mysql/connect-auth-proxy
-Note: if you are in a dev container use linux 64. Then move it to `mv cloud-sql-proxy ~/.local/bin/`
-
-```
-./cloud-sql-proxy --address 0.0.0.0 --port 5432 austin-rent:us-central1:austin-rent-db
-```
-## Deploy to cloud run 
-
-Main Mermaid diagram
-
-```mermaid
-```
-
-# Secrets 
-
-for now I'm fine with just making new ones with gcloud 
-
-TODO this is bad bc the echo will eval anything with a `$`
-```bash
-echo -n "your-secure-password" | gcloud secrets create db-password --data-file=-
-```
