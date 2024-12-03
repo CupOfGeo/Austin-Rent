@@ -1,8 +1,10 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import structlog
 import socketserver
+from http.server import BaseHTTPRequestHandler
+
+import structlog
 
 logger = structlog.get_logger()
+
 
 class HealthRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -15,6 +17,7 @@ class HealthRequestHandler(BaseHTTPRequestHandler):
             self.send_header("Content-type", "text/plain")
             self.end_headers()
             logger.error(f"{self.address_string()} - GET {self.path} 404")
+
 
 def run_simple_webserver():
     # port = int(os.environ.get("PORT", 8080))

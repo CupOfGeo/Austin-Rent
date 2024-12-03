@@ -1,6 +1,8 @@
-from crawlee import Request
 from typing import Any, Dict
+
+from crawlee import Request
 from crawlee._types import HttpHeaders, HttpMethod, HttpPayload
+
 
 class ExtendedRequest(Request):
     @classmethod
@@ -8,7 +10,7 @@ class ExtendedRequest(Request):
         cls,
         url: str,
         *,
-        method: HttpMethod = 'GET',
+        method: HttpMethod = "GET",
         headers: HttpHeaders | dict[str, str] | None = None,
         payload: HttpPayload | str | None = None,
         label: str | None = None,
@@ -19,7 +21,7 @@ class ExtendedRequest(Request):
         always_enqueue: bool = False,
         metadata: Dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> 'ExtendedRequest':
+    ) -> "ExtendedRequest":
         request = Request.from_url(
             url=url,
             method=method,

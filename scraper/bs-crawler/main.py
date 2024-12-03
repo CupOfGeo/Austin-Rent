@@ -1,15 +1,16 @@
 import asyncio
-from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
-import structlog
-import threading
 import multiprocessing
 
+import structlog
+from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
+
 from .config.logging import configure_logging
-from .routes import router
 from .extended_request import ExtendedRequest
+from .routes import router
 from .utils.simple_webserver import run_simple_webserver
 
 logger = structlog.get_logger()
+
 
 async def main() -> None:
     """The crawler entry point."""
@@ -26,9 +27,9 @@ async def main() -> None:
     await crawler.run(
         [
             ExtendedRequest.from_url(
-                url='https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524',
-                label='JSON',
-                metadata={"building_id": 1}
+                url="https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524",
+                label="JSON",
+                metadata={"building_id": 1},
             ),
         ]
     )
@@ -36,4 +37,3 @@ async def main() -> None:
     # Sleep for an extra minute to keep the application running for health check
     await asyncio.sleep(60)
     simple_webserver.terminate()
-    

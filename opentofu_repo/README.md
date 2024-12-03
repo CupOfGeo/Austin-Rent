@@ -30,14 +30,14 @@ gcloud iam service-accounts keys create ~/tofu-key.json --iam-account tofu-admin
 ```
 Moved that key to secrets folder.
 
-## WIF setup 
+## WIF setup
 https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions
 
 So this service account should be the one that tofu uses in the CI/CD
 
 
 
-## Enabling services 
+## Enabling services
 ```
 gcloud services enable artifactregistry.googleapis.com --project=austin-rent
 gcloud services list --enabled --project=austin-rent

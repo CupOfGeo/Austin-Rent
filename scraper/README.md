@@ -22,11 +22,11 @@ Finally, launch the crawler with:
 poetry run python -m bs-crawler
 ```
 
-This service will get scrape_requests from the `scrape-requests-subscription`. it will scrape the page and save the response to the `scraper-responses` bucket. This triggers a pubsub notification to the `scrape-responses-topic`. 
+This service will get scrape_requests from the `scrape-requests-subscription`. it will scrape the page and save the response to the `scraper-responses` bucket. This triggers a pubsub notification to the `scrape-responses-topic`.
 
 
 
-message sent to pubsub 
+message sent to pubsub
 ```json
 {
   "kind": "storage#object",
@@ -53,11 +53,11 @@ message sent to pubsub
 ```
 
 
-Buildings on Rainey 
+Buildings on Rainey
 JSON
 	- 700: https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524
 	- Skyhouse: https://sightmap.com/app/api/v1/60p7q39nw7n/sightmaps/397
-	- Camden: POST request 
+	- Camden: POST request
 
 ```bash
 https://www.camdenliving.com/_next/data/4kXFu0gMaS-hzENoMDlgs/apartments/austin-tx/camden-rainey-street/available-apartments.json?citySlug=austin-tx&communitySlug=camden-rainey-street

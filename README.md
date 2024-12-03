@@ -1,5 +1,5 @@
 # The One Repo To Rule Them All (ORTRTA)
-this is the common read me that will spread standards across multiple repos 
+this is the common read me that will spread standards across multiple repos
 
 Main Mermaid diagram
 ```mermaid
@@ -8,20 +8,20 @@ Main Mermaid diagram
 ## Github actions
 We use github actions but bc we are running a (ORTRTA). You have to manually trigger it and specify the app name so we don't rebuild and deploy ever app on push to main.
 
-Folder name dictates app name same as cloud run name 
+Folder name dictates app name same as cloud run name
 
 
 
 
-## Database 
-Postgres dbs 
+## Database
+Postgres dbs
 https://gist.github.com/kyledcline/9b7e864b89c269beb2c34e55fb0903b0
 
-naming convention. 
+naming convention.
     - underscores for table_name
     - PK should be table_name_id
 
-Connecting to CloudSQL 
+Connecting to CloudSQL
 https://cloud.google.com/sql/docs/mysql/connect-auth-proxy
 Note: if you are in a dev container use linux 64. Then move it to `mv cloud-sql-proxy ~/.local/bin/`
 
@@ -30,9 +30,9 @@ Note: if you are in a dev container use linux 64. Then move it to `mv cloud-sql-
 ```
 
 
-# Secrets 
+# Secrets
 
-for now I'm fine with just making new ones with gcloud 
+for now I'm fine with just making new ones with gcloud
 
 TODO this is bad bc the echo will eval anything with a `$`
 ```bash
@@ -46,10 +46,10 @@ Lets build something that scrapes rent prices on Rainey street and uploads them 
 
 My initial idea of the system.
 
-- Well we gotta start with a list of urls somewhere. Maybe they live in a database 
+- Well we gotta start with a list of urls somewhere. Maybe they live in a database
     [https://700river.com/floorplans/, https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524, ...]
 
-- Well have a cron job that will basically just select everything from that database and publish messages to a scrape service 
+- Well have a cron job that will basically just select everything from that database and publish messages to a scrape service
 
 - well make requests to them for now http should be fine and we shouldn't worry about cloning the browser with playwright. This should be its own service that we send messages (url) to and it will save the response to a bucket and pass that id on as a message to
 
@@ -58,7 +58,7 @@ My initial idea of the system.
 
 Simple One service to rule them all.
 
-- List is hard coded into they code 
+- List is hard coded into they code
 - We also do parsing in the code
 - save it to the db from here
 

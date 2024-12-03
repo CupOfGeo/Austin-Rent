@@ -4,7 +4,7 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
-# apps 
+# apps
 module "scraper_module" {
   source      = "./scraper-module"
   gcp_project = var.gcp_project
