@@ -1,6 +1,6 @@
-import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import structlog
+import socketserver
 
 logger = structlog.get_logger()
 
@@ -14,12 +14,10 @@ class HealthRequestHandler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
-            # self.wfile.write(b"Not Found")
             logger.error(f"{self.address_string()} - GET {self.path} 404")
 
-def run_simple_webserver(server_class: HTTPServer, handler_class: HealthRequestHandler):
-    port = int(os.environ.get("PORT", 8080))
-    server_address = ('', port)
-    httpd = server_class(server_address, handler_class)
-    logger.info(f"Starting server on port {port}")
-    httpd.serve_forever()
+def run_simple_webserver():
+    # port = int(os.environ.get("PORT", 8080))
+    logger.info("Starting health check server", port=8080)
+    with socketserver.TCPServer(("", 8080), HealthRequestHandler) as httpd:
+        httpd.serve_forever()
