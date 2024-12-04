@@ -21,7 +21,7 @@ def save_to_gcs(content, building_id):
     upload_string_to_gcs(bucket, json.dumps(content), filename, building_id)
 
 
-@router.default_handler
+@router.handler("HTML")
 async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
     building_id = context.request.user_data.model_extra.get("building_id")
@@ -75,8 +75,9 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
         "metadata": {
             "requested_url": context.request.url,
             "loaded_url": context.request.loaded_url,
-            "handled_at": context.request.handled_at,
             "building_id": building_id,
+            "handled_at": context.request.handled_at,
+            "retry_count": context.request.retry_count,
         },
         "content": json_content if json_content else None,
     }
