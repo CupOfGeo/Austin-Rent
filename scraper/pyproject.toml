@@ -14,6 +14,12 @@ google-cloud-storage = "^2.18.2"
 uuid6 = "^2024.7.10"
 structlog-gcp = "^0.3.0"
 structlog = "^24.4.0"
+google-cloud-secret-manager = "^2.21.1"
+yarl = "^1.18.3"
+pydantic-settings = "^2.6.1"
+psycopg = "^3.2.3"
+sqlalchemy = "^2.0.36"
+asyncpg = "^0.30.0"
 
 [build-system]
 requires = ["poetry-core"]

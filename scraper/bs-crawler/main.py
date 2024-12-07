@@ -1,6 +1,5 @@
 import asyncio
 import multiprocessing
-import structlog
 
 from crawlee import Request
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
@@ -9,8 +8,7 @@ from crawlee.configuration import Configuration
 from .config.logging import configure_logging
 from .routes import router
 from .utils.simple_webserver import run_simple_webserver
-
-logger = structlog.get_logger()
+from .db.sql_connect import connect_to_db
 
 
 async def main() -> None:
@@ -21,7 +19,6 @@ async def main() -> None:
     simple_webserver.start()
 
     configuration = Configuration(persist_storage=False, write_metadata=False)
-
     crawler = BeautifulSoupCrawler(
         request_handler=router,
         max_requests_per_crawl=1,
@@ -33,18 +30,18 @@ async def main() -> None:
             Request.from_url(
                 url="https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524",
                 label="JSON",
-                user_data={'building_id': 1}
+                user_data={"building_id": 1},
             ),
-            Request.from_url(
-                url="https://sightmap.com/app/api/v1/60p7q39nw7n/sightmaps/397",
-                label="JSON",
-                user_data={'building_id': 2}
-            ),
-            Request.from_url(
-                url="https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans/",
-                label="HTML",
-                user_data={'building_id': 3}
-            ),
+            # Request.from_url(
+            #     url="https://sightmap.com/app/api/v1/60p7q39nw7n/sightmaps/397",
+            #     label="JSON",
+            #     user_data={"building_id": 2},
+            # ),
+            # Request.from_url(
+            #     url="https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans/",
+            #     label="HTML",
+            #     user_data={"building_id": 3},
+            # ),
         ]
     )
 

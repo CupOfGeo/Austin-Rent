@@ -13,6 +13,7 @@ def upload_string_to_gcs(
     """Uploads a string as a file to the specified GCS bucket."""
     try:
         blob = bucket.blob(destination_blob_name)
+        # Passes in building_id to pubsub message
         blob.metadata = {"building_id": building_id}
         blob.upload_from_string(content)
 

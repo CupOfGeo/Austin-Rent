@@ -7,18 +7,21 @@ from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
 from crawlee.router import Router
 from google.cloud import storage
 
+from .db.scrape_response_dao import ScrapeResponseDAO
 from .utils.bucket_utils import upload_string_to_gcs
 
 logger = structlog.get_logger()
-
 router = Router[BeautifulSoupCrawlingContext]()
 storage_client = storage.Client()
 bucket = storage_client.bucket("scraper-responses")
+dao = ScrapeResponseDAO()
 
 
 def save_to_gcs(content, building_id):
-    filename = f"{uuid6.uuid8()}.json"
+    file_id = uuid6.uuid8()
+    filename = f"{file_id}.json"
     upload_string_to_gcs(bucket, json.dumps(content), filename, building_id)
+    return file_id
 
 
 @router.handler("HTML")
@@ -50,11 +53,21 @@ async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
         logger.error("No content fetched.", url=context.request.url)
 
     scrape_response = {
-        "url": context.request.loaded_url,
-        "content": content_str if content else None,
+        "metadata": {
+            "requested_url": context.request.url,
+            "loaded_url": context.request.loaded_url,
+            "building_id": building_id,
+            "handled_at": context.request.handled_at,
+            "retry_count": context.request.retry_count,
+        },
+        "content": content_str if content_str else None,
     }
 
-    save_to_gcs(scrape_response, building_id)
+    try:
+        file_id = save_to_gcs(scrape_response, building_id)
+        await dao.add_scrape_response(scrape_response, file_id)
+    except Exception as e:
+        logger.error("Failed to save scrape response to GCP.", error=str(e))
 
 
 @router.handler("JSON")
@@ -82,7 +95,12 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
         "content": json_content if json_content else None,
     }
 
-    save_to_gcs(scrape_response, building_id)
+    try:
+        file_id = save_to_gcs(scrape_response, building_id)
+        await dao.add_scrape_response(scrape_response, file_id)
+    except Exception as e:
+        logger.error("Failed to save scrape response to GCP.", error=str(e))
+
 
 
 ## TODO images
