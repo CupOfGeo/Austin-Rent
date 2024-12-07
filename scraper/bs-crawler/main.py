@@ -8,8 +8,8 @@ from crawlee.configuration import Configuration
 from .config.logging import configure_logging
 from .routes import router
 from .utils.simple_webserver import run_simple_webserver
-from .db.sql_connect import connect_to_db
 
+from .db.sql_connect import get_db_session
 
 async def main() -> None:
     """The crawler entry point."""
