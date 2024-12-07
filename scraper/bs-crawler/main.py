@@ -1,15 +1,15 @@
 import asyncio
 import multiprocessing
 
-from crawlee import Request
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
 from crawlee.configuration import Configuration
 
+from .Buildings import buildings
 from .config.logging import configure_logging
+from .config.settings import settings
 from .routes import router
 from .utils.simple_webserver import run_simple_webserver
 
-from .db.sql_connect import get_db_session
 
 async def main() -> None:
     """The crawler entry point."""
@@ -25,25 +25,11 @@ async def main() -> None:
         configuration=configuration,
     )
 
-    await crawler.run(
-        [
-            Request.from_url(
-                url="https://sightmap.com/app/api/v1/8epml7q1v6d/sightmaps/80524",
-                label="JSON",
-                user_data={"building_id": 1},
-            ),
-            # Request.from_url(
-            #     url="https://sightmap.com/app/api/v1/60p7q39nw7n/sightmaps/397",
-            #     label="JSON",
-            #     user_data={"building_id": 2},
-            # ),
-            # Request.from_url(
-            #     url="https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans/",
-            #     label="HTML",
-            #     user_data={"building_id": 3},
-            # ),
-        ]
-    )
+    if settings.environment == "LOCAL":
+        buildings_to_run = buildings[: settings.debug_buildings_limit]
+    else:
+        buildings_to_run = buildings
+    await crawler.run(buildings_to_run)
 
     # Sleep for an extra minute to keep the application running for health check
     await asyncio.sleep(60)

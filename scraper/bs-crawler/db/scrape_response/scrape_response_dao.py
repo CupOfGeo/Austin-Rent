@@ -1,19 +1,13 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-from ..db.scrape_response_model import ScrapeResponse
-from ..db.sql_connect import get_db_session
-from ..db.dummy_model import DummyModel
+from ...db.scrape_response.scrape_response_model import ScrapeResponse
+from ...db.sql_connect import get_db_session
 import structlog
 
 logger = structlog.get_logger()
 
 class ScrapeResponseDAO:
-    # def __init__(self, session: AsyncSession = get_db_session()):
-    #     self.session = session
 
     async def add_scrape_response(self, scrape_response, file_id):
         async for session in get_db_session():
-            session.add(DummyModel(name="new test"))
-            return
             new_scrape_response = ScrapeResponse(
                 file_id=file_id,
                 requested_url=scrape_response['metadata']['requested_url'],

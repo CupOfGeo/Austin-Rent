@@ -1,5 +1,5 @@
-from sqlalchemy.orm import DeclarativeBase
 import sqlalchemy as sa
+from sqlalchemy.orm import DeclarativeBase
 
 meta = sa.MetaData()
 

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.dialects.postgresql import UUID
-from ..db.base import Base
+from ...db.base import Base
 
 class ScrapeResponse(Base):
     __tablename__ = 'scrape_responses'

@@ -1,13 +1,15 @@
-import structlog
-from ..config.settings import settings
 from typing import AsyncGenerator
+
+import structlog
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from ..db.dummy_model import DummyModel
+
+from ..config.settings import settings
 
 logger = structlog.get_logger()
 
 engine = create_async_engine(settings.db_url, echo=True)
 session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
+
 
 async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     """

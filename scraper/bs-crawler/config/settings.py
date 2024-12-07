@@ -1,17 +1,18 @@
 import enum
-from pathlib import Path
 
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
 from pydantic import Field
+from pydantic_settings import BaseSettings
 from sqlalchemy import URL
 
 from ..utils.secret_utils import get_secret
 
-load_dotenv('.env')
+load_dotenv(".env")
+
 
 class Env(str, enum.Enum):
-    """ Possible Deploy Environments."""
+    """Possible Deploy Environments."""
+
     LOCAL = "LOCAL"
     DEV = "DEV"
     PROD = "PROD"
@@ -24,16 +25,19 @@ class Settings(BaseSettings):
     These parameters can be configured
     with environment variables.
     """
-    webserver_port: int = Field(8080, env="WEBSERVER_PORT")
 
-    environment: str = Field("LOCAL", env="ENVIRONMENT")
-    
     db_host: str = Field("0.0.0.0", env="DB_HOST")
     db_port: int = Field(5432, env="DB_PORT")
     db_user: str = Field("admin", env="DB_USER")
     db_pass: str = Field(get_secret("scraper-db-password"), env="DB_PASS")
     db_name: str = Field("scraper", env="DB_NAME")
     db_echo: bool = Field(True, env="DB_ECHO")
+
+    debug_building_limit: int = Field(1, env="DEBUG_BUILDING_LIMIT")
+    environment: str = Field("LOCAL", env="ENVIRONMENT")
+    gcp_project: str = Field("austin-rent", env="GCP_PROJECT")
+    logging_level: str = Field("INFO", env="LOGGING_LEVEL")
+    webserver_port: int = Field(8080, env="WEBSERVER_PORT")
 
     @property
     def db_url(self) -> URL:
@@ -43,7 +47,7 @@ class Settings(BaseSettings):
         :return: database URL.
         """
         # local postgres URL schema
-        if self.environment == 'LOCAL':
+        if self.environment == "LOCAL":
             return URL.create(
                 drivername="postgresql+asyncpg",
                 host=self.db_host,
