@@ -12,9 +12,11 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/scraper",
             "justMyCode": false,
-            "python": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-C0QAiYbG-py3.12/bin/python",
+            "python": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-7DgAT4g4-py3.12/bin/python",
             "env": {
-                "PYTHONPATH": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-C0QAiYbG-py3.12"
+                "ENVIRONMENT":"LOCAL",
+                "DEBUG_BUILDING_LIMIT":"1",
+                "LOGGING_LEVEL": "DEBUG"
             },
             "args": [],
 

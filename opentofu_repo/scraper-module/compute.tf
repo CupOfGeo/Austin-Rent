@@ -1,3 +1,4 @@
+# TODO look into google_cloud_run_v2_service
 resource "google_cloud_run_service" "scraper" {
   name     = "scraper"
   location = "us-central1"
