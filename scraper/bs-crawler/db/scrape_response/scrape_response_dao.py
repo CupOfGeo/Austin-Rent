@@ -15,11 +15,6 @@ class ScrapeResponseDAO:
                 requested_url=scrape_response["metadata"]["requested_url"],
                 loaded_url=scrape_response["metadata"]["loaded_url"],
                 building_id=scrape_response["metadata"]["building_id"],
-                handled_at=scrape_response["metadata"]["handled_at"],
                 retry_count=scrape_response["metadata"]["retry_count"],
             )
             session.add(new_scrape_response)
-            logger.debug(
-                "Scrape response saved to database.",
-                scrape_response=new_scrape_response,
-            )

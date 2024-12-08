@@ -25,7 +25,7 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
         try:
             await session.commit()
         except Exception as e:
+            logger.error("Failed to save scrape response to database rolling back commit.", error=str(e))
             await session.rollback()
-            logger.error("Failed to save scrape response to database.", error=str(e))
             raise e
         await session.close()

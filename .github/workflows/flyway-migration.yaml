@@ -1,0 +1,58 @@
+name: Flyway Migration
+on:
+  push:
+    branches:
+      - main
+env:
+  PROJECT_ID: 'austin-rent' 
+  REGION: 'us-central1'
+  gcp-cloud-sql-instance: 'scraper'
+
+jobs:
+  migration:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - id: 'auth'
+        name: Google Auth
+        uses: 'google-github-actions/auth@v1'
+        with:
+          # token_format: 'access_token' # use for debugging
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: Get Cloud SQL Proxy
+        run: |
+          curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.4.0/cloud-sql-proxy.linux.amd64
+          chmod +x cloud-sql-proxy
+
+      - name: Backup staging database
+        run: |
+          gcloud sql backups create --instance=${{env.gcp-cloud-sql-instance}}
+
+      - name: Run Proxy and Flyway Migration
+      # TODO user should be ${{APP_NAME}}-user and should be made with terraform
+        run: |
+          ./cloud-sql-proxy --address 0.0.0.0 --port 5432 ${{env.PROJECT_ID}}:${{env.REGION}}:${{env.gcp-cloud-sql-instance}} &
+
+          echo "Waiting for the proxy to start..."
+          until nc -z localhost 5432; do
+            sleep 0.5 # wait for half a second before checking again
+          done
+
+          docker run --network=host --rm \
+          -v ${{ github.workspace }}/${{vars.APP_NAME}}/migrations:/flyway/sql \
+          flyway/flyway:9 \
+          -url=jdbc:postgresql://localhost:5432/postgres \
+          -user=postgres \
+          -password=${{ secrets.FASTAPI_CRUD_DB_PASS }} \
+          migrate

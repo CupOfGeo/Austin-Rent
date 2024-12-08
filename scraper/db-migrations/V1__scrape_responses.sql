@@ -4,7 +4,6 @@ CREATE TABLE scrape_responses (
     requested_url VARCHAR NOT NULL,
     loaded_url VARCHAR NOT NULL,
     building_id INTEGER NOT NULL,
-    handled_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     retry_count INTEGER NOT null
 );

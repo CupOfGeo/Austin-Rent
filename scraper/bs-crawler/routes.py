@@ -46,25 +46,10 @@ async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
                 url=context.request.url,
             )
     else:
-        # Not sure if this is already handled by crawlee doesn't hurt to have it here
+        # Not sure if none content is already handled by crawlee doesn't hurt to have it here
         logger.error("No content fetched.", url=context.request.url)
         raise Exception("No content fetched.")
-
-    scrape_response = {
-        "metadata": {
-            "requested_url": context.request.url,
-            "loaded_url": context.request.loaded_url,
-            "building_id": building_id,
-            "handled_at": context.request.handled_at,
-            "retry_count": context.request.retry_count,
-        },
-        "content": content_str if content_str else None,
-    }
-    try:
-        file_id = save_to_gcs(scrape_response, building_id)
-        await dao.add_scrape_response(scrape_response, file_id)
-    except Exception as e:
-        logger.error("Failed to save scrape response to GCP.", error=str(e))
+    save_scrape_response(context, content)
 
 
 @router.handler("JSON")
@@ -79,21 +64,30 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
         json_content = None
         logger.error("Invalid JSON content.", url=context.request.url)
     # We should save invalid page for debugging?
-    # They get saved in the logs maybe we pump them to a bad_responses bucket
+    # They get saved in the logs maybe future we pump them to a bad_responses bucket?
+    save_scrape_response(context, json_content)
 
+
+async def save_scrape_response(context: BeautifulSoupCrawlingContext, cleaned_content):
+    building_id = context.request.user_data.model_extra.get("building_id")
     scrape_response = {
         "metadata": {
             "requested_url": context.request.url,
             "loaded_url": context.request.loaded_url,
             "building_id": building_id,
-            "handled_at": context.request.handled_at,
             "retry_count": context.request.retry_count,
         },
-        "content": json_content if json_content else None,
+        "content": cleaned_content,
     }
     try:
         file_id = save_to_gcs(scrape_response, building_id)
         await dao.add_scrape_response(scrape_response, file_id)
+        logger.info(
+            "Scrape response saved to GCP.",
+            url={context.request.url},
+            building_id=building_id,
+            file_id=file_id,
+        )
     except Exception as e:
         logger.error(
             "Failed to save scrape response to GCP.",
@@ -101,12 +95,6 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
             building_id=building_id,
             error=str(e),
         )
-    logger.info(
-        "Scrape response saved to GCP.",
-        url={context.request.url},
-        building_id=building_id,
-        file_id=file_id,
-    )
 
 
 # TODO images
