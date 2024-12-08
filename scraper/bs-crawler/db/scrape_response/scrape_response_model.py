@@ -1,9 +1,11 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
+
 from ...db.base import Base
 
+
 class ScrapeResponse(Base):
-    __tablename__ = 'scrape_responses'
+    __tablename__ = "scrape_responses"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     file_id = Column(UUID, nullable=False)

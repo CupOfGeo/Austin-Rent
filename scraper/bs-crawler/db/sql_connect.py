@@ -7,7 +7,7 @@ from ..config.settings import settings
 
 logger = structlog.get_logger()
 
-engine = create_async_engine(settings.db_url, echo=True)
+engine = create_async_engine(settings.db_url, echo=settings.db_echo)
 session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 

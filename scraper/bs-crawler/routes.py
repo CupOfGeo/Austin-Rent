@@ -28,7 +28,7 @@ def save_to_gcs(content, building_id):
 async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
     building_id = context.request.user_data.model_extra.get("building_id")
-    logger.debug("Processing", url={context.request.url}, building_id=building_id)
+    logger.info("Processing", url={context.request.url}, building_id=building_id)
     http_response = context.http_response
     content = http_response.read() if http_response else None
     if content:
@@ -71,7 +71,7 @@ async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
 async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
     building_id = context.request.user_data.model_extra.get("building_id")
-    logger.debug("Processing", url={context.request.url}, building_id=building_id)
+    logger.info("Processing", url={context.request.url}, building_id=building_id)
     http_response = context.http_response
     try:
         json_content = json.load(http_response)
@@ -95,7 +95,18 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
         file_id = save_to_gcs(scrape_response, building_id)
         await dao.add_scrape_response(scrape_response, file_id)
     except Exception as e:
-        logger.error("Failed to save scrape response to GCP.", error=str(e))
+        logger.error(
+            "Failed to save scrape response to GCP.",
+            url={context.request.url},
+            building_id=building_id,
+            error=str(e),
+        )
+    logger.info(
+        "Scrape response saved to GCP.",
+        url={context.request.url},
+        building_id=building_id,
+        file_id=file_id,
+    )
 
 
 # TODO images

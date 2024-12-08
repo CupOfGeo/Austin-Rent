@@ -1,8 +1,6 @@
 import structlog
 from google.cloud import secretmanager
 
-from ..config.settings import settings
-
 logger = structlog.get_logger()
 
 
@@ -14,9 +12,11 @@ def get_secret(secret_id: str, version_id: str = "latest") -> str:
     :param version_id: The version of the secret (default is "latest").
     :return: The secret value as a string.
     """
+    # get_secret() is used by settings so we cant import it hard code so its not breakings
+    gcp_project = "austin-rent"
     try:
         client = secretmanager.SecretManagerServiceClient()
-        name = client.secret_path(settings.gcp_project, secret_id)
+        name = client.secret_path(gcp_project, secret_id)
         response = client.access_secret_version(
             request={"name": f"{name}/versions/latest"}
         )

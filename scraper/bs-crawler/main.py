@@ -26,7 +26,7 @@ async def main() -> None:
     )
 
     if settings.environment == "LOCAL":
-        buildings_to_run = buildings[: settings.debug_buildings_limit]
+        buildings_to_run = buildings[: settings.debug_building_limit]
     else:
         buildings_to_run = buildings
     await crawler.run(buildings_to_run)

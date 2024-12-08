@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Boolean, Column, Integer, String
+
 from ...db.base import Base
 
+
 class Building(Base):
-    __tablename__ = 'buildings'
+    __tablename__ = "buildings"
 
     building_id = Column(Integer, primary_key=True, autoincrement=True)
     address = Column(String, nullable=False)
