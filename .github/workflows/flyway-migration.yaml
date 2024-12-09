@@ -12,7 +12,7 @@ on:
           - 'scraper'
 
 env:
-  PROJECT_ID: 'austin-rent' 
+  PROJECT_ID: 'austin-rent'
   REGION: 'us-central1'
   gcp-cloud-sql-instance: 'austin-rent-db'
 
