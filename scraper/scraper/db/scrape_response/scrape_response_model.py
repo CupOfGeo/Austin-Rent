@@ -1,7 +1,7 @@
 from sqlalchemy import Column, DateTime, Integer, String, func
 from sqlalchemy.dialects.postgresql import UUID
 
-from ...db.base import Base
+from scraper.db.base import Base
 
 
 class ScrapeResponse(Base):

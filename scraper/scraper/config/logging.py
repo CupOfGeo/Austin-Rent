@@ -5,7 +5,7 @@ import logging
 import structlog
 import structlog_gcp
 
-from ..config.settings import settings
+from scraper.config.settings import settings
 
 logger = structlog.get_logger()
 

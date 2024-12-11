@@ -4,6 +4,15 @@ from google.cloud import storage
 logger = structlog.get_logger()
 
 
+# def get_bucket(bucket_name: str) -> storage.bucket.Bucket:
+#     """Returns a GCS bucket."""
+#     try:
+#         storage_client = storage.Client()
+#         bucket = storage_client.bucket(bucket_name)
+#         return bucket
+#     except Exception as e:
+#         logger.error(f"Failed to get bucket: {e}", exc_info=True)
+
 def upload_string_to_gcs(
     bucket: storage.bucket.Bucket,
     content: str,

@@ -7,8 +7,8 @@ from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
 from crawlee.router import Router
 from google.cloud import storage
 
-from .db.scrape_response.scrape_response_dao import ScrapeResponseDAO
-from .utils.bucket_utils import upload_string_to_gcs
+from scraper.db.scrape_response.scrape_response_dao import ScrapeResponseDAO
+from scraper.utils.bucket_utils import upload_string_to_gcs #, get_bucket
 
 logger = structlog.get_logger()
 router = Router[BeautifulSoupCrawlingContext]()
@@ -18,14 +18,15 @@ dao = ScrapeResponseDAO()
 
 
 def save_to_gcs(content, building_id):
+    # get_bucket = storage_client.bucket("scraper-responses")
     file_id = uuid6.uuid8()
     filename = f"{file_id}.json"
     upload_string_to_gcs(bucket, json.dumps(content), filename, building_id)
     return file_id
 
-
+# @router.default_handler()
 @router.handler("HTML")
-async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
+async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
     building_id = context.request.user_data.model_extra.get("building_id")
     logger.info("Processing", url={context.request.url}, building_id=building_id)
@@ -34,22 +35,25 @@ async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
     if content:
         try:
             content_str = content.decode("utf-8")
-            soup = BeautifulSoup(content_str, "html.parser")
-            if soup.find():
-                logger.debug("Valid HTML content.")
-            else:
+            # BeautifulSoup will fixes invalid HTML
+            if content_str == str(BeautifulSoup(content_str, "html.parser")):
                 logger.error("Invalid HTML content.")
+                raise Exception("Invalid HTML content.")
+            else:
+                logger.debug("Valid HTML content.")
         except Exception as e:
             logger.error(
                 "An error occurred while parsing HTML content.",
                 error=str(e),
                 url=context.request.url,
             )
+            raise e
     else:
         # Not sure if none content is already handled by crawlee doesn't hurt to have it here
         logger.error("No content fetched.", url=context.request.url)
         raise Exception("No content fetched.")
-    save_scrape_response(context, content)
+    
+    # await save_scrape_response(context, content)
 
 
 @router.handler("JSON")
@@ -65,7 +69,7 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
         logger.error("Invalid JSON content.", url=context.request.url)
     # We should save invalid page for debugging?
     # They get saved in the logs maybe future we pump them to a bad_responses bucket?
-    save_scrape_response(context, json_content)
+    await save_scrape_response(context, json_content)
 
 
 async def save_scrape_response(context: BeautifulSoupCrawlingContext, cleaned_content):

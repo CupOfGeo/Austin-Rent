@@ -1,10 +1,16 @@
 [tool.poetry]
-name = "bs-crawler"
+name = "scraper"
 version = "0.0.1"
 description = "beautifulsoup crawler"
 authors = ["George Mazzeo <mazzeogeorge@gmail.com>"]
 readme = "README.md"
 package-mode = false
+packages = [
+    { include = "scraper" }
+]
+
+[tool.poetry.scripts]
+scraper = "scraper:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -20,7 +26,17 @@ pydantic-settings = "^2.6.1"
 psycopg = "^3.2.3"
 sqlalchemy = "^2.0.36"
 asyncpg = "^0.30.0"
+pytest = "^8.3.4"
+pytest-asyncio = "^0.24.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest-asyncio = "^0.24.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["scraper/tests"]
+pythonpath = ["."]

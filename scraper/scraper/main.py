@@ -4,11 +4,11 @@ import multiprocessing
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
 from crawlee.configuration import Configuration
 
-from .Buildings import buildings
-from .config.logging import configure_logging
-from .config.settings import settings
-from .routes import router
-from .utils.simple_webserver import run_simple_webserver
+from scraper.Buildings import buildings
+from scraper.config.logging import configure_logging
+from scraper.config.settings import settings
+from scraper.routes import router
+from scraper.utils.simple_webserver import run_simple_webserver
 
 
 async def main() -> None:

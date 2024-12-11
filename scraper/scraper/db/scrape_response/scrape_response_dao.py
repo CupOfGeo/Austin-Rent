@@ -1,7 +1,7 @@
 import structlog
 
-from ...db.scrape_response.scrape_response_model import ScrapeResponse
-from ...db.sql_connect import get_db_session
+from scraper.db.scrape_response.scrape_response_model import ScrapeResponse
+from scraper.db.sql_connect import get_db_session
 
 logger = structlog.get_logger()
 

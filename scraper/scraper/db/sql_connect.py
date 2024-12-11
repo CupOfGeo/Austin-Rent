@@ -3,7 +3,7 @@ from typing import AsyncGenerator
 import structlog
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from ..config.settings import settings
+from scraper.config.settings import settings
 
 logger = structlog.get_logger()
 
@@ -25,7 +25,10 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
         try:
             await session.commit()
         except Exception as e:
-            logger.error("Failed to save scrape response to database rolling back commit.", error=str(e))
+            logger.error(
+                "Failed to save scrape response to database rolling back commit.",
+                error=str(e),
+            )
             await session.rollback()
             raise e
         await session.close()

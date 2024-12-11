@@ -9,4 +9,4 @@ RUN poetry install --no-root
 
 COPY . /app
 
-ENTRYPOINT ["poetry", "run", "python", "-m", "bs-crawler"]
+ENTRYPOINT ["poetry", "run", "python", "-m", "scraper"]

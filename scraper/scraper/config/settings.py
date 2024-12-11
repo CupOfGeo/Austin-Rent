@@ -2,10 +2,10 @@ import enum
 
 from dotenv import load_dotenv
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
 
-from ..utils.secret_utils import get_secret
+from scraper.utils.secret_utils import get_secret
 
 load_dotenv(".env")
 
@@ -26,18 +26,18 @@ class Settings(BaseSettings):
     with environment variables.
     """
 
-    db_host: str = Field("0.0.0.0", env="DB_HOST")
-    db_port: int = Field(5432, env="DB_PORT")
-    db_user: str = Field("admin", env="DB_USER")
-    db_pass: str = Field(get_secret("scraper-db-password"), env="DB_PASS")
-    db_name: str = Field("scraper", env="DB_NAME")
-    db_echo: bool = Field(True, env="DB_ECHO")
+    db_host: str = Field("0.0.0.0", validation_alias="DB_HOST")
+    db_port: int = Field(5432, validation_alias="DB_PORT")
+    db_user: str = Field("admin", validation_alias="DB_USER")
+    db_pass: str = Field(get_secret("scraper-db-password"), validation_alias="DB_PASS")
+    db_name: str = Field("scraper", validation_alias="DB_NAME")
+    db_echo: bool = Field(True, validation_alias="DB_ECHO")
 
-    debug_building_limit: int = Field(1, env="DEBUG_BUILDING_LIMIT")
-    environment: str = Field("LOCAL", env="ENVIRONMENT")
-    gcp_project: str = Field("austin-rent", env="GCP_PROJECT")
-    logging_level: str = Field("INFO", env="LOGGING_LEVEL")
-    webserver_port: int = Field(8080, env="WEBSERVER_PORT")
+    debug_building_limit: int = Field(1, validation_alias="DEBUG_BUILDING_LIMIT")
+    environment: str = Field("LOCAL", validation_alias="ENVIRONMENT")
+    gcp_project: str = Field("austin-rent", validation_alias="GCP_PROJECT")
+    logging_level: str = Field("INFO", validation_alias="LOGGING_LEVEL")
+    webserver_port: int = Field(8080, validation_alias="WEBSERVER_PORT")
 
     @property
     def db_url(self) -> URL:
@@ -65,9 +65,10 @@ class Settings(BaseSettings):
             password=self.db_pass,
         )
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    # TODO update to SettingConfigDict
+    # class ConfigDict:
+    #     env_file = ".env"
+    #     env_file_encoding = "utf-8"
 
 
 settings = Settings()

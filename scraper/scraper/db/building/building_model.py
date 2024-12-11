@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer, String
 
-from ...db.base import Base
+from scraper.db.base import Base
 
 
 class Building(Base):
