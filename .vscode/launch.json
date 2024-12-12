@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "bs-crawler",
+            "module": "scraper",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/scraper",
             "justMyCode": false,
@@ -19,7 +19,23 @@
                 "LOGGING_LEVEL": "DEBUG"
             },
             "args": [],
-
+        },
+        {
+            "name": "Python Debugger: Test",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/scraper/scraper/tests",
+            "justMyCode": false,
+            "python": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-7DgAT4g4-py3.12/bin/python",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/scraper",
+                "ENVIRONMENT":"LOCAL",
+                "DEBUG_BUILDING_LIMIT":"1",
+                "LOGGING_LEVEL": "DEBUG"
+            },
+            "args": [],
         }
     ]
 }

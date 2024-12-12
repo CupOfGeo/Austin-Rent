@@ -1,10 +1,16 @@
-# define GCP region
+# custom variables for the scraper module
+variable "service_name" {
+  type        = string
+  description = "The name of the Google Cloud Run service to create"
+  default     = "scraper"
+}
+
+# pass in variables from main
 variable "gcp_region" {
   type        = string
   description = "GCP region"
   default     = "us-central1"
 }
-
 variable "zone" {
   type        = string
   description = "GCP zone"
@@ -14,19 +20,14 @@ variable "gcp_project" {
  type        = string
  description = "GCP project name"
 }
-variable "machine_type" {
-  type        = string
-  description = "The name of the Google Storage Bucket to create"
-  default     = "e2-small"
-}
 
 variable "db_instance" {
   type        = string
   description = "The name of the Google SQL instance to create"
   default     = "austin-rent-db"
 }
-
-# variable "scraper_server_image" {
-#   type        = string
-#   description = "image in GAR"
-# }
+variable "image_repo" {
+  type        = string
+  description = "The name of the Google Container Registry to use"
+  default     = "image-repo"
+}

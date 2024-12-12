@@ -65,3 +65,7 @@ resource "google_sql_user" "user" {
   password = data.google_secret_manager_secret_version.db_password.secret_data
 }
 ```
+
+
+Im going back and forth between if I should have a dev prod envs bc i want to have a company in a repo but I don't actually want a prod pricing.
+you don't want to duplicate everything in prod like we only need one artifact repo ?? right?

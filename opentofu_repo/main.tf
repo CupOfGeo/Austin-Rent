@@ -1,7 +1,11 @@
 provider "google" {
   project = var.gcp_project
   region  = var.gcp_region
-  zone    = "us-central1-c"
+}
+
+provider "google-beta" {
+  project = var.gcp_project
+  region  = var.gcp_region
 }
 
 # apps
@@ -10,6 +14,7 @@ module "scraper_module" {
   gcp_project = var.gcp_project
   gcp_region  = var.gcp_region
   db_instance = google_sql_database_instance.austin_rent_instance.name
+  image_repo  = google_artifact_registry_repository.artifact_repo.name
 }
 
 # Shared repo resources
