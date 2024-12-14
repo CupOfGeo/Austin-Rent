@@ -28,8 +28,8 @@ class Settings(BaseSettings):
 
     db_host: str = Field("0.0.0.0", validation_alias="DB_HOST")
     db_port: int = Field(5432, validation_alias="DB_PORT")
-    db_user: str = Field("admin", validation_alias="DB_USER")
-    db_pass: str = Field(get_secret("scraper-db-password"), validation_alias="DB_PASS")
+    db_user: str = Field("scraper_app", validation_alias="DB_USER")
+    db_pass: str = Field(get_secret("austin-rent-db_scraper_app"), validation_alias="DB_PASS")
     db_name: str = Field("scraper", validation_alias="DB_NAME")
     db_echo: bool = Field(True, validation_alias="DB_ECHO")
 
