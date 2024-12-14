@@ -1,6 +1,6 @@
 import socketserver
 from http.server import BaseHTTPRequestHandler
-
+from scraper.config.settings import settings
 import structlog
 
 logger = structlog.get_logger()
@@ -20,7 +20,7 @@ class HealthRequestHandler(BaseHTTPRequestHandler):
 
 
 def run_simple_webserver():
-    # port = int(os.environ.get("PORT", 8080))
-    logger.info("Starting health check server", port=8080)
-    with socketserver.TCPServer(("", 8080), HealthRequestHandler) as httpd:
+    PORT = settings.webserver_port
+    logger.info("Starting health check server", port=PORT)
+    with socketserver.TCPServer(("", PORT), HealthRequestHandler) as httpd:
         httpd.serve_forever()
