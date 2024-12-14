@@ -8,7 +8,7 @@ from crawlee.router import Router
 from google.cloud import storage
 
 from scraper.db.scrape_response.scrape_response_dao import ScrapeResponseDAO
-from scraper.utils.bucket_utils import upload_string_to_gcs #, get_bucket
+from scraper.utils.bucket_utils import upload_string_to_gcs  # , get_bucket
 
 logger = structlog.get_logger()
 router = Router[BeautifulSoupCrawlingContext]()
@@ -23,6 +23,7 @@ def save_to_gcs(content, building_id):
     filename = f"{file_id}.json"
     upload_string_to_gcs(bucket, json.dumps(content), filename, building_id)
     return file_id
+
 
 async def save_scrape_response(context: BeautifulSoupCrawlingContext, cleaned_content):
     building_id = context.request.user_data.model_extra.get("building_id")
@@ -82,8 +83,8 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
         # Not sure if none content is already handled by crawlee doesn't hurt to have it here
         logger.error("No content fetched.", url=context.request.url)
         raise Exception("No content fetched.")
-    
-    # await save_scrape_response(context, content)
+
+    await save_scrape_response(context, content)
 
 
 @router.handler("JSON")

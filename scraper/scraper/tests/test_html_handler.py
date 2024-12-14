@@ -1,20 +1,16 @@
 from __future__ import annotations
 
 import logging
-from unittest.mock import AsyncMock, Mock
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
-from unittest.mock import patch
 from crawlee import Request
-from crawlee.sessions import Session
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
-
+from crawlee.sessions import Session
 
 # Mock the storage.Client initialization
 with patch("google.cloud.storage.Client", new=Mock()):
     from scraper.routes import router as my_router
-
 
 
 class MockHttpResponse:
@@ -34,11 +30,12 @@ class MockHttpResponse:
         return b"<html>bad >"
 
 
-
 class MockContext(BeautifulSoupCrawlingContext):
     def __init__(self, *, label: str | None) -> None:
         super().__init__(
-            request=Request.from_url(url='https://example.com/', user_data={'label': label}),
+            request=Request.from_url(
+                url="https://example.com/", user_data={"label": label}
+            ),
             session=Session(),
             send_request=AsyncMock(),
             add_requests=AsyncMock(),
@@ -52,12 +49,10 @@ class MockContext(BeautifulSoupCrawlingContext):
         )
 
 
-
 @pytest.mark.asyncio
 async def test_router_specific_handler_invoked() -> None:
-    mock_default_handler = Mock()
-    mock_handler_a = Mock()
+    Mock()
+    Mock()
 
-
-    await my_router(MockContext(label='HTML'))
+    await my_router(MockContext(label="HTML"))
     assert 1 == 1

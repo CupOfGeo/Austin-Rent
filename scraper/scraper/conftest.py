@@ -11,5 +11,3 @@
 #     """
 #     thing = html_handler()
 #     return thing  # noqa: WPS331
-
-

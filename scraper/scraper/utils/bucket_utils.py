@@ -13,6 +13,7 @@ def get_bucket(bucket_name: str) -> storage.bucket.Bucket:
     except Exception as e:
         logger.error(f"Failed to get bucket: {e}", exc_info=True)
 
+
 def upload_string_to_gcs(
     bucket: storage.bucket.Bucket,
     content: str,

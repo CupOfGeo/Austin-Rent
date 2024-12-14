@@ -1,5 +1,4 @@
 import asyncio
-import multiprocessing
 
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
 from crawlee.configuration import Configuration
@@ -8,7 +7,6 @@ from scraper.Buildings import buildings
 from scraper.config.logging import configure_logging
 from scraper.config.settings import settings
 from scraper.routes import router
-from scraper.utils.simple_webserver import run_simple_webserver
 
 
 async def main() -> None:
@@ -16,9 +14,9 @@ async def main() -> None:
     configure_logging()
     # Start the simple web server in a subprocess
     webserver_process = await asyncio.create_subprocess_exec(
-        'python', '-m', 'scraper.utils.simple_webserver'
+        "python", "-m", "scraper.utils.simple_webserver"
     )
-    try: 
+    try:
         configuration = Configuration(persist_storage=False, write_metadata=False)
         crawler = BeautifulSoupCrawler(
             request_handler=router,

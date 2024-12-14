@@ -1,7 +1,9 @@
 import socketserver
 from http.server import BaseHTTPRequestHandler
-from scraper.config.settings import settings
+
 import structlog
+
+from scraper.config.settings import settings
 
 logger = structlog.get_logger()
 
