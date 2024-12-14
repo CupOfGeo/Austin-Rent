@@ -31,8 +31,3 @@ resource "google_secret_manager_secret_version" "app" {
   secret      = google_secret_manager_secret.app.id
   secret_data = random_password.password_app.result
 }
-
-resource "random_password" "password_readonly" {
-  length  = 24
-  special = false
-}

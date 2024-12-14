@@ -47,3 +47,9 @@ resource "google_project_iam_member" "scheduler_invoker" {
   role    = "roles/run.invoker"
   member  = "serviceAccount:${google_service_account.scraper_sa.email}"
 }
+
+resource "google_secret_manager_secret_iam_member" "scraper_db_password_access" {
+  secret_id = google_secret_manager_secret.app.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.scraper_sa.email}"
+}
