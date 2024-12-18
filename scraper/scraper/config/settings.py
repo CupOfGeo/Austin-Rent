@@ -8,9 +8,9 @@ from sqlalchemy import URL
 from scraper.config.secret_manager import set_env_vars
 
 if os.getenv("ENVIRONMENT") == "LOCAL":
-    set_env_vars("/workspaces/AustinRent/scraper/configs/local.yaml")
+    set_env_vars("./configs/local.yaml")
 else:
-    set_env_vars("/workspaces/AustinRent/scraper/configs/dev.yaml")
+    set_env_vars("./configs/dev.yaml")
 
 
 class Env(str, enum.Enum):

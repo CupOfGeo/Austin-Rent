@@ -1,4 +1,8 @@
-# The One Repo To Rule Them All (ORTRTA)
+# Austin Rent
+This project will scrape the rents prices form buildings on Rainey St in Austin Tx. The goal of this project will be to product a nice data visualization for reddit. 
+This project is more of a devops project than a software project. Ideal I would have an org in a box with a real production best practices.
+
+## The One Repo To Rule Them All (ORTRTA)
 this is the common read me that will spread standards across multiple repos
 
 Main Mermaid diagram
