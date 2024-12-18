@@ -11,7 +11,6 @@ resource "random_password" "password_app" {
 
 resource "google_sql_user" "app" {
   name       = "${var.service_name}_app"
-  project    = var.gcp_project
   password   = random_password.password_app.result
   instance   = var.db_instance
   depends_on = [google_sql_database.scraper]

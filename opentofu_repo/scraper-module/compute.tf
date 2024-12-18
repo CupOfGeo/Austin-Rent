@@ -15,6 +15,36 @@ resource "google_cloud_run_service" "scraper" {
   }
 }
 
+
+
+# resource "google_cloud_run_v2_service" "default" {
+#   name     = var.service_name
+#   location = var.gcp_region
+
+#   template {
+#     containers {
+#       image = "us-central1-docker.pkg.dev/${var.gcp_project}/${var.image_repo}/${var.service_name}:latest"
+
+#       volume_mounts {
+#         name       = "cloudsql"
+#         mount_path = "/cloudsql"
+#       }
+#     }
+#     volumes {
+#       name = "cloudsql"
+#       cloud_sql_instance {
+#         instances = [google_sql_database_instance.default.connection_name]
+#       }
+#     }
+#   }
+#   client     = "terraform"
+#   depends_on = [google_project_service.secretmanager_api, google_project_service.cloudrun_api, google_project_service.sqladmin_api]
+# }
+
+
+
+
+
 resource "google_cloud_scheduler_job" "scraper_job" {
   name             = "${var.service_name}-cron"
   description      = "Trigger Cloud Run scraper service every day at 12 PM"
