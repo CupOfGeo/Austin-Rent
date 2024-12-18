@@ -55,15 +55,7 @@ env_vars:
 ```
 They will be decrypted at the start of runtime see `/scraper/scraper/config/secret_manager.py`
 
-*TODO*
-Then see `/opentofu_repo/scraper-module/compute.tf` was granted access to read that secret
-```
-resource "google_secret_manager_secret_iam_member" "scraper_db_password_access" {
-  secret_id = google_secret_manager_secret.app.secret_id
-  role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${google_service_account.scraper_sa.email}"
-}
-```
+Then see `/opentofu_repo/scraper-module/compute.tf` was granted access to read that secret.
 
 
 First attempt was making gcp secrets with gcloud cli and then retrieving them with python. This got better when I used tofu to create the secrets. One draw back using it in python was circular imports from the settings so i have to still hard code the gcp project. worked fine when the only thing was the db password but now i want to add the db public ip. I don't wanna make a whole tofu thing for it. Now im going to use [age](https://github.com/FiloSottile/age) so we can encrypt values with public keys then decrypt them at runtime.
