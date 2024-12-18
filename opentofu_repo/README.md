@@ -17,7 +17,6 @@ https://cloud.google.com/blog/products/identity-security/enabling-keyless-authen
 So this service account should be the one that tofu uses in the CI/CD
 
 
-
 ## Enabling services
 TODO do this with tofu
 ```

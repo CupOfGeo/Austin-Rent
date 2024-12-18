@@ -78,8 +78,9 @@ resource "google_project_iam_member" "scheduler_invoker" {
   member  = "serviceAccount:${google_service_account.scraper_sa.email}"
 }
 
+# TODO don't manually make this secret - one time init thing
 resource "google_secret_manager_secret_iam_member" "scraper_db_password_access" {
-  secret_id = google_secret_manager_secret.app.secret_id
+  secret_id = "manual-private-key"
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${google_service_account.scraper_sa.email}"
 }
