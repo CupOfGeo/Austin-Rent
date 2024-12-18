@@ -11,8 +11,6 @@ We use github actions but bc we are running a (ORTRTA). You have to manually tri
 Folder name dictates app name same as cloud run name
 
 
-
-
 ## Database
 Postgres dbs
 https://gist.github.com/kyledcline/9b7e864b89c269beb2c34e55fb0903b0
@@ -31,13 +29,40 @@ Note: if you are in a dev container use linux 64. Then move it to `mv cloud-sql-
 
 
 # Secrets
+So I have updated this a few times.
+I have created the key with this command and set it as the gh secret.
+`age-keygen -o secrets/austin-rent-key.txt`
+Public key: age1phl53gymlk2rt5fwvdvyeds30w73slkgj8trs6c5nkdf43wzkd2s2mdfx0
+`gh secret set AUSTIN_RENT_KEY < secrets/austin-rent-key.txt`
 
-for now I'm fine with just making new ones with gcloud
+## Creating a new secret
+get the value from [secret manager](https://console.cloud.google.com/security/secret-manager/secret/manual-private-key/versions?project=austin-rent)
+`echo 'export AR_PUBLIC_KEY=age1phl53gymlk2rt5fwvdvyeds30w73slkgj8trs6c5nkdf43wzkd2s2mdfx0' >> ~/.zshrc`
 
-TODO this is bad bc the echo will eval anything with a `$`
-```bash
-echo -n "your-secure-password" | gcloud secrets create db-password --data-file=-
+Now we can do
+`echo "your-secret-value" | age -r $AR_PUBLIC_KEY | base64`
+
+Then you can put them in the respective config yaml `/scraper/scraper/configs/dev.yaml`
+```yaml
+secrets:
+  TEST: YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBTa1RkTEVZZWdEbnI1Rmgyb2RzdEc3L1hkWXozYWk5RkZmMlk5TUpFSWljCm9ldTJBN2xEYXlFaFdiNmJsUXR4eklxTllBV2JjTi9Yb2czTUxrRElnWmsKLS0tIDNYbWNvNnFUeDFrb2VZZ3FCcGsyOWNtZ25hQXMrWi91cGY5endYeGo2UlEK61yW+mYcM0my9NH6B2X3o2L3CfCNveVXm9PtV5V/0R7w2Ue2aWUrrEUL3SXEwSNIMAQ=
+env_vars:
+  ENVIRONMENT: DEV
 ```
+They will be decrypted at the start of runtime see `/scraper/scraper/config/secret_manager.py`
+
+*TODO*
+Then see `/opentofu_repo/scraper-module/compute.tf` was granted access to read that secret
+```
+resource "google_secret_manager_secret_iam_member" "scraper_db_password_access" {
+  secret_id = google_secret_manager_secret.app.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.scraper_sa.email}"
+}
+```
+
+
+First attempt was making gcp secrets with gcloud cli and then retrieving them with python. This got better when I used tofu to create the secrets. One draw back using it in python was circular imports from the settings so i have to still hard code the gcp project. worked fine when the only thing was the db password but now i want to add the db public ip. I don't wanna make a whole tofu thing for it. Now im going to use [age](https://github.com/FiloSottile/age) so we can encrypt values with public keys then decrypt them at runtime.
 
 
 

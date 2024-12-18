@@ -21,8 +21,14 @@ class HealthRequestHandler(BaseHTTPRequestHandler):
             logger.error(f"{self.address_string()} - GET {self.path} 404")
 
 
-def run_simple_webserver():
+def run_simple_webserver(stop_event):
     PORT = settings.webserver_port
     logger.info("Starting health check server", port=PORT)
-    with socketserver.TCPServer(("", PORT), HealthRequestHandler) as httpd:
-        httpd.serve_forever()
+    httpd = socketserver.TCPServer(("", PORT), HealthRequestHandler)
+    httpd.timeout = 5
+    while not stop_event.is_set():
+        httpd.handle_request()
+
+
+def stop_webserver(stop_event):
+    stop_event.set()

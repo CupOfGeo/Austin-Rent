@@ -1,13 +1,16 @@
 import enum
+import os
 
-from dotenv import load_dotenv
 from pydantic import Field
 from pydantic_settings import BaseSettings
 from sqlalchemy import URL
 
-from scraper.utils.secret_utils import get_secret
+from scraper.config.secret_manager import set_env_vars
 
-load_dotenv(".env")
+if os.getenv("ENVIRONMENT") == "LOCAL":
+    set_env_vars("/workspaces/AustinRent/scraper/configs/local.yaml")
+else:
+    set_env_vars("/workspaces/AustinRent/scraper/configs/dev.yaml")
 
 
 class Env(str, enum.Enum):
@@ -26,18 +29,21 @@ class Settings(BaseSettings):
     with environment variables.
     """
 
+    # model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    # This one actually gets set first by the cloud run deploy script.
+    environment: str = Field("LOCAL", validation_alias="ENVIRONMENT")
+    gcp_project: str = Field("austin-rent", validation_alias="GCP_PROJECT")
+
     db_host: str = Field("0.0.0.0", validation_alias="DB_HOST")
     db_port: int = Field(5432, validation_alias="DB_PORT")
     db_user: str = Field("scraper_app", validation_alias="DB_USER")
-    db_pass: str = Field(
-        get_secret("austin-rent-db_scraper_app"), validation_alias="DB_PASS"
-    )
+    # set by secret_manager
+    db_pass: str = Field("", validation_alias="DB_PASS")
     db_name: str = Field("scraper", validation_alias="DB_NAME")
     db_echo: bool = Field(True, validation_alias="DB_ECHO")
 
     debug_building_limit: int = Field(1, validation_alias="DEBUG_BUILDING_LIMIT")
-    environment: str = Field("LOCAL", validation_alias="ENVIRONMENT")
-    gcp_project: str = Field("austin-rent", validation_alias="GCP_PROJECT")
+
     logging_level: str = Field("INFO", validation_alias="LOGGING_LEVEL")
     webserver_port: int = Field(8080, validation_alias="WEBSERVER_PORT")
 
@@ -66,11 +72,6 @@ class Settings(BaseSettings):
             username=self.db_user,
             password=self.db_pass,
         )
-
-    # TODO update to SettingConfigDict
-    # class ConfigDict:
-    #     env_file = ".env"
-    #     env_file_encoding = "utf-8"
 
 
 settings = Settings()

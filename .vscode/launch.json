@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Module",
+            "name": "Scraper: Module",
             "type": "debugpy",
             "request": "launch",
             "module": "scraper",
@@ -15,13 +15,13 @@
             "python": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-7DgAT4g4-py3.12/bin/python",
             "env": {
                 "ENVIRONMENT":"LOCAL",
-                "DEBUG_BUILDING_LIMIT":"2",
+                "DEBUG_BUILDING_LIMIT":"0",
                 "LOGGING_LEVEL": "DEBUG"
             },
             "args": [],
         },
         {
-            "name": "Python Debugger: Test",
+            "name": "Scraper: Test",
             "type": "debugpy",
             "request": "launch",
             "module": "pytest",
