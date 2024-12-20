@@ -21,4 +21,9 @@ buildings = [
         label="HTML",
         user_data={"building_id": 3},
     ),
+    #     Request.from_url(
+    #     url="https://en.wikipedia.org/wiki/Cgroups",
+    #     label="HTML",
+    #     user_data={"building_id": 3},
+    # ),
 ]

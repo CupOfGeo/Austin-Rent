@@ -84,7 +84,7 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
         logger.error("No content fetched.", url=context.request.url)
         raise Exception("No content fetched.")
 
-    await save_scrape_response(content_str, content)
+    await save_scrape_response(context, content_str)
 
 
 @router.handler("JSON")
