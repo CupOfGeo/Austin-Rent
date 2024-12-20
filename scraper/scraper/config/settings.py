@@ -68,7 +68,7 @@ class Settings(BaseSettings):
         # gcp cloud sql has a different connection url schema
         return URL.create(
             drivername="postgresql+asyncpg",
-            database = self.db_name,
+            database=self.db_name,
             host=f"?host=/cloudsql/austin-rent:us-central1:austin-rent-db",
             username=self.db_user,
             password=self.db_pass,
