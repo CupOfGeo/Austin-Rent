@@ -46,3 +46,7 @@ GRANT INSERT, UPDATE, DELETE ON TABLE scrape_responses TO your_username;
 ## ?
 Im going back and forth between if I should have a dev prod envs bc i want to have a company in a repo but I don't actually want a prod pricing.
 you don't want to duplicate everything in prod like we only need one artifact repo ?? right?
+
+
+#### other
+https://github.com/terraform-google-modules 

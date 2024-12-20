@@ -14,7 +14,7 @@
             "justMyCode": false,
             "python": "/home/vscode/.cache/pypoetry/virtualenvs/bs-crawler-7DgAT4g4-py3.12/bin/python",
             "env": {
-                "ENVIRONMENT":"LOCAL",
+                "ENVIRONMENT":"DEV",
                 "DEBUG_BUILDING_LIMIT":"1",
                 "LOGGING_LEVEL": "DEBUG"
             },

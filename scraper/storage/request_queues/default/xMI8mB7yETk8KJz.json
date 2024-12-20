@@ -1,0 +1,18 @@
+{
+  "url": "https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans/",
+  "unique_key": "https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans",
+  "method": "GET",
+  "headers": {},
+  "payload": null,
+  "user_data": {
+    "label": "HTML",
+    "building_id": 3
+  },
+  "retry_count": 0,
+  "no_retry": false,
+  "loaded_url": null,
+  "handled_at": null,
+  "id": "xMI8mB7yETk8KJz",
+  "json_": "{\n  \"url\": \"https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans/\",\n  \"unique_key\": \"https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans\",\n  \"method\": \"GET\",\n  \"headers\": {},\n  \"payload\": null,\n  \"user_data\": {\n    \"label\": \"HTML\",\n    \"building_id\": 3\n  },\n  \"retry_count\": 0,\n  \"no_retry\": false,\n  \"loaded_url\": null,\n  \"handled_at\": null,\n  \"id\": \"xMI8mB7yETk8KJz\",\n  \"order_no\": \"1734660548625.988960\"\n}",
+  "order_no": "1734660548625.988960"
+}
