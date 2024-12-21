@@ -4,7 +4,7 @@ import os
 from pydantic import Field
 from pydantic_settings import BaseSettings
 from yarl import URL
-import sqlalchemy
+
 
 from scraper.config.secret_manager import set_env_vars
 
@@ -65,14 +65,20 @@ class Settings(BaseSettings):
                 password=self.db_pass,
                 path=f"/{self.db_name}",
             )
-
+        
+        return URL.build(
+            scheme="postgresql+asyncpg",
+            host=f"scraper?host=/cloudsql/austin-rent:us-central1:austin-rent-db",
+            user=self.db_user,
+            password=self.db_pass,
+        )
         # gcp cloud sql has a different connection url schema
-        return sqlalchemy.engine.url.URL.create(
-            drivername="postgresql+pg8000",
-            username=settings.db_user,
-            password=settings.db_pass,
-            database=settings.db_name,
-            query={"unix_sock": "/cloudsql/austin-rent:us-central1:austin-rent-db"}) #/.s.PGSQL.5432
+        # return sqlalchemy.engine.url.URL.create(
+        #     drivername="postgresql+asyncpg",
+        #     username=settings.db_user,
+        #     password=settings.db_pass,
+        #     database=settings.db_name,
+        #     query={"unix_sock": "/cloudsql/austin-rent:us-central1:austin-rent-db/.s.PGSQL.5432"})
 
 
 settings = Settings()
