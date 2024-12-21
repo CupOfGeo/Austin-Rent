@@ -84,3 +84,9 @@ resource "google_secret_manager_secret_iam_member" "scraper_db_password_access" 
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${google_service_account.scraper_sa.email}"
 }
+
+resource "google_project_iam_member" "cloud_sql_client" {
+  project = var.gcp_project
+  role    = "roles/cloudsql.client"
+  member  = "serviceAccount:${google_service_account.scraper_sa.email}"
+}
