@@ -18,8 +18,8 @@ async def test_connect():
     """
     Test database connection.
     """
-    async with engine.connect() as conn:
-        await conn.execute(select(1))
+    async with session_factory() as session:
+        await session.execute(select(1))
         logger.info("Successfully connected to the database")
 
 
