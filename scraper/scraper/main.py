@@ -12,10 +12,10 @@ async def main() -> None:
     """The crawler entry point."""
     configure_logging()
     await test_connect()
-    configuration = Configuration(persist_storage=False, write_metadata=False)
+    configuration = Configuration(verbose_log=True) #persist_storage=False, write_metadata=False, 
     crawler = BeautifulSoupCrawler(
         request_handler=router,
-        max_requests_per_crawl=1,
+        max_requests_per_crawl=None,
         configuration=configuration,
     )
 

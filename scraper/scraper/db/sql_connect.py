@@ -7,7 +7,6 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from scraper.config.settings import settings
 
 logger = structlog.get_logger()
-logger.info("Creating database engine", url=str(settings.db_url))
 engine = create_async_engine(str(settings.db_url),
             echo=settings.db_echo)
 

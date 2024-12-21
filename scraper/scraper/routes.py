@@ -54,13 +54,18 @@ async def save_scrape_response(context: BeautifulSoupCrawlingContext, cleaned_co
             error=str(e),
         )
 
+@router.default_handler
+async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
+    """Default request handler."""
+    building_id = context.request.user_data.model_extra.get("building_id")
+    logger.info("PASSING", url={context.request.url}, building_id=building_id)
 
-# @router.default_handler()
+
 @router.handler("HTML")
 async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
     building_id = context.request.user_data.model_extra.get("building_id")
-    logger.info("Processing", url={context.request.url}, building_id=building_id)
+    logger.info("Handling", url={context.request.url}, building_id=building_id)
     http_response = context.http_response
     content = http_response.read() if http_response else None
     if content:
@@ -91,7 +96,7 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
 async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
     building_id = context.request.user_data.model_extra.get("building_id")
-    logger.info("Processing", url={context.request.url}, building_id=building_id)
+    logger.info("Handling", url={context.request.url}, building_id=building_id)
     http_response = context.http_response
     try:
         json_content = json.load(http_response)
