@@ -68,7 +68,7 @@ class Settings(BaseSettings):
 
         # gcp cloud sql has a different connection url schema
         return sqlalchemy.engine.url.URL.create(
-            drivername="postgresql+asyncpg",
+            drivername="postgresql+pg8000",
             username=settings.db_user,
             password=settings.db_pass,
             database=settings.db_name,
