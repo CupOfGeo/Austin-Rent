@@ -66,12 +66,8 @@ class Settings(BaseSettings):
                 path=f"/{self.db_name}",
             )
         
-        return URL.build(
-            scheme="postgresql+asyncpg",
-            host=f"scraper?host=/cloudsql/austin-rent:us-central1:austin-rent-db",
-            user=self.db_user,
-            password=self.db_pass,
-        )
+        return URL(f"postgresql+asyncpg://{self.db_user}:{self.db_pass}@scraper?host=/cloudsql/austin-rent:us-central1:austin-rent-db")
+
         # gcp cloud sql has a different connection url schema
         # return sqlalchemy.engine.url.URL.create(
         #     drivername="postgresql+asyncpg",
