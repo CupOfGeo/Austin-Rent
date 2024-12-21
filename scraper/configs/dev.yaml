@@ -4,4 +4,3 @@ secrets:
 
 env_vars:
   ENVIRONMENT: DEV
-  DB_HOST: scraper

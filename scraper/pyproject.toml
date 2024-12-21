@@ -27,6 +27,7 @@ sqlalchemy = "^2.0.36"
 asyncpg = "^0.30.0"
 pytest = "^8.3.4"
 pytest-asyncio = "^0.24.0"
+yarl = "^1.18.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest-asyncio = "^0.24.0"

@@ -63,7 +63,9 @@ jobs:
           service: ${{ github.event.inputs.app_name }}
           region: ${{ env.REGION }}
           image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/${{ github.event.inputs.app_name }}:latest
+          flags: '--add-cloudsql-instances=austin-rent:us-central1:austin-rent-db'
           env_vars: |-
             ENVIRONMENT=DEV
+          
       - name: Show Backend URL
         run: echo ${{ steps.deploy.outputs.url }}
