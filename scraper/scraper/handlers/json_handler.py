@@ -1,6 +1,8 @@
 import json
+
 import structlog
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
+
 from scraper.db.scrape_extraction.extraction_model import ScrapeExtractionModel
 
 logger = structlog.get_logger()
@@ -19,9 +21,13 @@ async def json_validate(context: BeautifulSoupCrawlingContext) -> dict:
 
     return json_content
 
+
 async def json_extract(json_content, building_id, scrape_response_id) -> list:
     """Parse sight map content."""
-    floor_plans = {floor_plan.get('id'): floor_plan for floor_plan in json_content.get("data").get("floor_plans")}
+    floor_plans = {
+        floor_plan.get("id"): floor_plan
+        for floor_plan in json_content.get("data").get("floor_plans")
+    }
 
     units = json_content.get("data").get("units")
     extractions = []

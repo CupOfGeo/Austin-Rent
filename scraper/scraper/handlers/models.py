@@ -1,6 +1,7 @@
 """
 Unused but thoughts on how to structure the data models.
 """
+
 from dataclasses import dataclass
 
 
@@ -11,6 +12,7 @@ class ScraperResponse:
     building_id: str
     retry_count: int
     clean_content: str
+
 
 @dataclass
 class ScrapeExtraction:

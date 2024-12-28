@@ -1,12 +1,13 @@
-
 import json
-import uuid6
-from scraper.utils.bucket_utils import upload_string_to_gcs
+
 import structlog
+import uuid6
 from crawlee._request import Request
 
+from scraper.utils.bucket_utils import upload_string_to_gcs
 
 logger = structlog.get_logger()
+
 
 class HandlerDependencies:
     """
@@ -17,6 +18,7 @@ class HandlerDependencies:
         response_dao: The Data Access Object for interacting with the scrape response database.
         extractor_dao: The Data Access Object for interacting with the scrape extraction database.
     """
+
     def __init__(self, bucket, response_dao, extractor_dao):
         self.bucket = bucket
         self.response_dao = response_dao
@@ -25,11 +27,11 @@ class HandlerDependencies:
     def save_to_gcs(self, content, building_id) -> uuid6.UUID:
         """
         Creates the file_id and Saves the given content to Google Cloud Storage (GCS) and returns the file ID.
-        
+
         Args:
             content: The content to be saved to GCS.
             building_id: The ID of the building associated with the content.
-        
+
         Returns:
             uuid6.UUID: The unique identifier of the saved file.
         """
@@ -37,7 +39,7 @@ class HandlerDependencies:
         filename = f"{file_id}.json"
         upload_string_to_gcs(self.bucket, json.dumps(content), filename, building_id)
         return file_id
-    
+
     async def save_scrape_response(self, request: Request, cleaned_content) -> int:
         building_id = request.user_data.model_extra.get("building_id")
         # Should i use this object instead of a dict?
@@ -57,10 +59,12 @@ class HandlerDependencies:
             },
             "content": cleaned_content,
         }
-        
+
         try:
             file_id = self.save_to_gcs(scrape_response, building_id)
-            scrape_response_id = await self.response_dao.add_scrape_response(scrape_response, file_id)
+            scrape_response_id = await self.response_dao.add_scrape_response(
+                scrape_response, file_id
+            )
             logger.info(
                 "Scrape response saved to GCP.",
                 scrape_response_id=scrape_response_id,

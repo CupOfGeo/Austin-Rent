@@ -5,16 +5,17 @@ For now out of convenient and speed well just do the extraction here. It should 
     This will enable reprocessing of the data
     and also allow us to have different scrapers if we wanted to start using vendors
 """
+
 import structlog
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
 from crawlee.router import Router
 from google.cloud import storage
 
-from scraper.db.scrape_response.scrape_response_dao import ScrapeResponseDAO
 from scraper.db.scrape_extraction.extraction_dao import ScrapeExtractionDAO
-from scraper.handlers.html_handler import html_validate, html_extract
-from scraper.handlers.json_handler import json_validate, json_extract
+from scraper.db.scrape_response.scrape_response_dao import ScrapeResponseDAO
 from scraper.handlers.handler_utils import HandlerDependencies
+from scraper.handlers.html_handler import html_validate
+from scraper.handlers.json_handler import json_extract, json_validate
 
 logger = structlog.get_logger()
 router = Router[BeautifulSoupCrawlingContext]()
@@ -30,9 +31,11 @@ router = Router[BeautifulSoupCrawlingContext]()
 # router = RouterSingleton.get_router()
 
 deps = HandlerDependencies(
-    storage.Client().bucket("scraper-responses"), 
-    ScrapeResponseDAO(), 
-    ScrapeExtractionDAO())
+    storage.Client().bucket("scraper-responses"),
+    ScrapeResponseDAO(),
+    ScrapeExtractionDAO(),
+)
+
 
 @router.default_handler
 async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
@@ -46,7 +49,9 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
     building_id = context.request.user_data.model_extra.get("building_id")
     clean_content = await html_validate(context, building_id)
     if clean_content:
-        scrape_response_id = await deps.save_scrape_response(context.request, clean_content)
+        scrape_response_id = await deps.save_scrape_response(
+            context.request, clean_content
+        )
         if scrape_response_id:
             pass
             # extraction = await html_extract(context, scrape_response_id, building_id)
@@ -60,15 +65,18 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
     if clean_content:
         # We should save invalid page for debugging?
         # They get saved in the logs maybe future we pump them to a bad_responses bucket?
-        scrape_response_id = await deps.save_scrape_response(context.request, clean_content)
+        scrape_response_id = await deps.save_scrape_response(
+            context.request, clean_content
+        )
         if scrape_response_id:
             try:
-                extractions = await json_extract(clean_content, building_id, scrape_response_id)
+                extractions = await json_extract(
+                    clean_content, building_id, scrape_response_id
+                )
                 await deps.extractor_dao.add_extractions(extractions)
-                logger.info("Extraction saved to database.", )
+                logger.info(
+                    "Extraction saved to database.",
+                )
             except Exception as e:
                 logger.error("Failed to save extractions to database.", error=str(e))
                 # dont raise error or it will retry to scrape the page just log it
-
-
-

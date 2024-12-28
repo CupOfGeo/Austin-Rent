@@ -1,4 +1,4 @@
-from sqlalchemy import Numeric, Column, Integer, Date, Text, JSON
+from sqlalchemy import JSON, Column, Date, Integer, Numeric, Text
 
 from scraper.db.base import Base
 

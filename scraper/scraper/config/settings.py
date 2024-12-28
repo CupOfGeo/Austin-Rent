@@ -1,10 +1,10 @@
 import enum
 import os
+from typing import Optional
 
 from pydantic import Field
 from pydantic_settings import BaseSettings
 from yarl import URL
-from typing import Optional
 
 from scraper.config.secret_manager import set_env_vars
 
@@ -43,7 +43,9 @@ class Settings(BaseSettings):
     db_name: str = Field("scraper", validation_alias="DB_NAME")
     db_echo: bool = Field(False, validation_alias="DB_ECHO")
 
-    debug_building_limit: Optional[int] = Field(None, validation_alias="DEBUG_BUILDING_LIMIT")
+    debug_building_limit: Optional[int] = Field(
+        None, validation_alias="DEBUG_BUILDING_LIMIT"
+    )
 
     logging_level: str = Field("INFO", validation_alias="LOGGING_LEVEL")
     webserver_port: int = Field(8080, validation_alias="WEBSERVER_PORT")
@@ -67,7 +69,8 @@ class Settings(BaseSettings):
             )
 
         return URL(
-            f"postgresql+asyncpg://{self.db_user}:{self.db_pass}@/{self.db_name}?host=/cloudsql/austin-rent:us-central1:austin-rent-db"
+            f"postgresql+asyncpg://{self.db_user}:{self.db_pass}@/"
+            f"{self.db_name}?host=/cloudsql/austin-rent:us-central1:austin-rent-db"
         )
 
 
