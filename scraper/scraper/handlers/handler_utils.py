@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 import structlog
 import uuid6
@@ -40,7 +41,9 @@ class HandlerDependencies:
         upload_string_to_gcs(self.bucket, json.dumps(content), filename, building_id)
         return file_id
 
-    async def save_scrape_response(self, request: Request, cleaned_content) -> int:
+    async def save_scrape_response(
+        self, request: Request, cleaned_content
+    ) -> Optional[int]:
         building_id = request.user_data.model_extra.get("building_id")
         # Should i use this object instead of a dict?
         # ScrapeResponse(

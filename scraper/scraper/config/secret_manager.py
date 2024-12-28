@@ -36,7 +36,7 @@ def get_gcp_secret(secret_id: str, version_id: str = "latest") -> Optional[str]:
         return decode
     except Exception as e:
         logger.error("Failed to retrieve secret", secret_id=secret_id, error=e)
-        return None
+        raise e
 
 
 def load_yaml(yaml_file_path: str) -> dict:
@@ -56,12 +56,14 @@ def decrypt_value(encrypted_value: str, private_key_secret: str) -> str:
         capture_output=True,
     )
     if result.returncode != 0:
-        raise Exception(f"Decryption failed: {result.stderr}")
+        raise Exception(f"Decryption failed: {result.stderr.decode('utf-8')}")
     return result.stdout.strip().decode("utf-8")
 
 
-def set_env_vars(yaml_file_path: str) -> dict:
+def set_env_vars(yaml_file_path: str) -> None:
     private_key_secret = get_gcp_secret("manual-private-key")
+    if not private_key_secret:
+        raise Exception("Env vars NOT set. Failed to retrieve private key secret.")
     yaml_content = load_yaml(yaml_file_path)
     secrets = yaml_content.get("secrets", {})
     envs = yaml_content.get("env_vars", {})

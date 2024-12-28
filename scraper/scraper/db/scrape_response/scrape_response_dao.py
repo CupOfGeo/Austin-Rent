@@ -29,4 +29,4 @@ class ScrapeResponseDAO:
                 )
                 await session.rollback()
                 # raise e dont raise will cause scrape to retry
-                return None
+        return -1

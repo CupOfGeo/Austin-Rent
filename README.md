@@ -12,6 +12,20 @@ Main Mermaid diagram
 ```mermaid
 ```
 
+
+## Pre-Commit hooks
+
+install deps
+[TFlint](https://github.com/terraform-linters/tflint)
+[Trivy](https://github.com/aquasecurity/trivy)
+
+```bash
+curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.58.1
+```
+
+
 ## Github actions
 
 We use github actions but bc we are running a (ORTRTA). You have to manually trigger it and specify the app name so we don't rebuild and deploy ever app on push to main.
