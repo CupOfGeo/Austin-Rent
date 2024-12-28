@@ -3,5 +3,5 @@ CREATE TABLE buildings (
 	address VARCHAR NOT NULL,
     building_name VARCHAR,
     url VARCHAR not null,
-    is_active BOOLEAN default 1
+    is_active BOOLEAN default TRUE
 );

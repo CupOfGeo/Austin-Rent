@@ -60,8 +60,6 @@ jobs:
             sleep 0.5 # wait for half a second before checking again
           done
 
-          ls ${{ github.workspace }}/${{github.event.inputs.app_name}}/db-migrations
-
           docker run --network=host --rm \
           -v ${{ github.workspace }}/${{github.event.inputs.app_name}}/db-migrations:/flyway/sql \
           flyway/flyway:11 \
