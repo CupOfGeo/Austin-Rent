@@ -48,8 +48,9 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
     if clean_content:
         scrape_response_id = await deps.save_scrape_response(context.request, clean_content)
         if scrape_response_id:
-            extraction = await html_extract(context, scrape_response_id, building_id)
-        # await deps.extractor_dao.add_extractions(extraction)
+            pass
+            # extraction = await html_extract(context, scrape_response_id, building_id)
+            # await deps.extractor_dao.add_extractions(extraction)
 
 
 @router.handler("JSON")
@@ -61,9 +62,13 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
         # They get saved in the logs maybe future we pump them to a bad_responses bucket?
         scrape_response_id = await deps.save_scrape_response(context.request, clean_content)
         if scrape_response_id:
-            extractions = await json_extract(clean_content, building_id, scrape_response_id)
-            await deps.extractor_dao.add_extractions(extractions)
-            logger.info("Extraction saved to database.", )
+            try:
+                extractions = await json_extract(clean_content, building_id, scrape_response_id)
+                await deps.extractor_dao.add_extractions(extractions)
+                logger.info("Extraction saved to database.", )
+            except Exception as e:
+                logger.error("Failed to save extractions to database.", error=str(e))
+                # dont raise error or it will retry to scrape the page just log it
 
 
 

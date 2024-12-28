@@ -12,20 +12,15 @@ buildings = [
         user_data={"building_id": 1},
     ),
     Request.from_url(
-        url="https://en.wikipedia.org/wiki/Cgroups",
-        label="HTML",
-        user_data={"building_id": 3},
-    ),
-    Request.from_url(
         url="https://sightmap.com/app/api/v1/60p7q39nw7n/sightmaps/397",
         label="JSON",
         user_data={"building_id": 2},
     ),
-    Request.from_url(
-        url="https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans/",
-        label="HTML",
-        user_data={"building_id": 3},
-    ),
+    # Request.from_url(
+    #     url="https://www.windsorcommunities.com/properties/windsor-on-the-lake/floorplans/",
+    #     label="HTML",
+    #     user_data={"building_id": 3},
+    # ),
     #     Request.from_url(
     #     url="https://en.wikipedia.org/wiki/Cgroups",
     #     label="HTML",

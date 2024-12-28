@@ -17,12 +17,8 @@ async def main() -> None:
     )  # persist_storage=False, write_metadata=False,
     crawler = BeautifulSoupCrawler(
         request_handler=router,
-        max_requests_per_crawl=None,
+        max_requests_per_crawl=settings.debug_building_limit,
         configuration=configuration,
     )
 
-    if settings.debug_building_limit:
-        buildings_to_run = buildings[: settings.debug_building_limit]
-    else:
-        buildings_to_run = buildings
-    await crawler.run(buildings_to_run)
+    await crawler.run(buildings)

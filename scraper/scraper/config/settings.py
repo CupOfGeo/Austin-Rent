@@ -4,6 +4,7 @@ import os
 from pydantic import Field
 from pydantic_settings import BaseSettings
 from yarl import URL
+from typing import Optional
 
 from scraper.config.secret_manager import set_env_vars
 
@@ -42,7 +43,7 @@ class Settings(BaseSettings):
     db_name: str = Field("scraper", validation_alias="DB_NAME")
     db_echo: bool = Field(False, validation_alias="DB_ECHO")
 
-    debug_building_limit: int = Field(0, validation_alias="DEBUG_BUILDING_LIMIT")
+    debug_building_limit: Optional[int] = Field(None, validation_alias="DEBUG_BUILDING_LIMIT")
 
     logging_level: str = Field("INFO", validation_alias="LOGGING_LEVEL")
     webserver_port: int = Field(8080, validation_alias="WEBSERVER_PORT")
