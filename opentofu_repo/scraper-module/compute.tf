@@ -10,6 +10,17 @@ resource "google_cloud_run_service" "scraper" {
         ports {
           container_port = 8080
         }
+        resources {
+          limits = {
+            "cpu" = "2"
+            "memory" = "1Gi"
+          }
+        }
+        # TODO this isn't great - need to figure out how to pass in the env vars better
+        env {
+          name = "ENVIRONMENT"
+          value = "DEV"
+        }
       }
     }
   }
