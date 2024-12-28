@@ -15,6 +15,9 @@ env:
   PROJECT_ID: 'austin-rent'
   REGION: 'us-central1'
   gcp-cloud-sql-instance: 'austin-rent-db'
+  WIF_SERVICE_ACCOUNT: 'github-sa@austin-rent.iam.gserviceaccount.com'
+  WIF_PROVIDER: 'projects/951404538114/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+
 
 jobs:
   migration:
