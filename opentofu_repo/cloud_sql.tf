@@ -9,9 +9,9 @@ resource "google_sql_database_instance" "austin_rent_instance" {
       name  = "log_temp_files"
       value = "0"
     }
-    ip_configuration {
-      ssl_mode = "TRUSTED_CLIENT_CERTIFICATE_REQUIRED"
-    }
+    # ip_configuration {
+    #   ssl_mode = "TRUSTED_CLIENT_CERTIFICATE_REQUIRED"
+    # }
   }
 }
 

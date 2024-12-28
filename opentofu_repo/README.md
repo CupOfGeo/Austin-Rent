@@ -1,5 +1,3 @@
-<https://www.terraform-best-practices.com/naming>
-
 # Initial Setup
 
 Made a new GCP project Austin-Rent
@@ -21,7 +19,7 @@ So this service account should be the one that tofu uses in the CI/CD
 
 TODO do this with tofu
 
-```
+```bash
 gcloud services enable artifactregistry.googleapis.com --project=austin-rent
 gcloud services list --enabled --project=austin-rent
 ```
@@ -52,6 +50,7 @@ GRANT INSERT, UPDATE, DELETE ON TABLE scrape_responses TO your_username;
 Im going back and forth between if I should have a dev prod envs bc i want to have a company in a repo but I don't actually want a prod pricing.
 you don't want to duplicate everything in prod like we only need one artifact repo ?? right?
 
-#### other
+### other
 
 <https://github.com/terraform-google-modules>
+<https://www.terraform-best-practices.com/naming>
