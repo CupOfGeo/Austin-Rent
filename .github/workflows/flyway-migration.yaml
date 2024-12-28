@@ -64,6 +64,6 @@ jobs:
           -v ${{ github.workspace }}/${{vars.APP_NAME}}/migrations:/flyway/sql \
           flyway/flyway:9 \
           -url=jdbc:postgresql://localhost:5432/postgres \
-          -user=postgres \
-          -password=${{ secrets.FASTAPI_CRUD_DB_PASS }} \
+          -user=scraper_app \
+          -password=${{ secrets.SCRAPER_APP_PASSWORD }} \
           migrate

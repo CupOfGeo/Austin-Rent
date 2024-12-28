@@ -39,6 +39,11 @@ I have created the key with this command and set it as the gh secret.
 Public key: age1phl53gymlk2rt5fwvdvyeds30w73slkgj8trs6c5nkdf43wzkd2s2mdfx0
 `gh secret set AUSTIN_RENT_KEY < secrets/austin-rent-key.txt`
 
+Ok so i just caved and did this for the flyway migration. Probably for the best to just use the gh secretes.
+`gh secret set SCRAPER_APP_PASSWORD < secrets/.env`
+
+
+
 ## Creating a new secret
 get the value from [secret manager](https://console.cloud.google.com/security/secret-manager/secret/manual-private-key/versions?project=austin-rent)
 `echo 'export AR_PUBLIC_KEY=age1phl53gymlk2rt5fwvdvyeds30w73slkgj8trs6c5nkdf43wzkd2s2mdfx0' >> ~/.zshrc`
