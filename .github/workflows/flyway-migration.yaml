@@ -61,7 +61,7 @@ jobs:
           done
 
           docker run --network=host --rm \
-          -v ${{ github.workspace }}/${{vars.APP_NAME}}/migrations:/flyway/sql \
+          -v ${{ github.workspace }}/${{vars.APP_NAME}}/db-migrations:/flyway/sql \
           flyway/flyway:9 \
           -url=jdbc:postgresql://localhost:5432/postgres \
           -user=scraper_app \
