@@ -13,7 +13,7 @@ async def main() -> None:
     configure_logging()
     await test_connect()
     configuration = Configuration(
-        verbose_log=False,
+        verbose_log=True,
     )  # persist_storage=False, write_metadata=False,
     crawler = BeautifulSoupCrawler(
         request_handler=router,
