@@ -1,5 +1,5 @@
 CREATE TABLE scrape_responses (
-    scrape_page_id SERIAL PRIMARY KEY,
+    scrape_response_id SERIAL PRIMARY KEY,
     file_id UUID NOT NULL,
     requested_url VARCHAR NOT NULL,
     loaded_url VARCHAR NOT NULL,

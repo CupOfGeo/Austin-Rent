@@ -2,6 +2,12 @@
     "cSpell.words": [
         "crawlee",
         "drivername",
-        "secretmanager"
-    ]
+        "secretmanager",
+        "sightmap"
+    ],
+    "python.testing.pytestArgs": [
+        "scraper"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

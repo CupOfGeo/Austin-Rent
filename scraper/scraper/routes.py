@@ -1,3 +1,11 @@
+"""
+Routes for the scraper.
+
+For now out of convenient and speed well just do the extraction here. It should go to extractor in the future -
+    This will enable reprocessing of the data
+    and also allow us to have different scrapers if we wanted to start using vendors
+"""
+
 import json
 
 import structlog
@@ -7,18 +15,21 @@ from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
 from crawlee.router import Router
 from google.cloud import storage
 
+from scraper.db.scrape_extraction.extraction_dao import ScrapeExtractionDAO
+from scraper.db.scrape_extraction.extraction_model import ScrapeExtractionModel
 from scraper.db.scrape_response.scrape_response_dao import ScrapeResponseDAO
-from scraper.utils.bucket_utils import upload_string_to_gcs  # , get_bucket
+from scraper.utils.bucket_utils import upload_string_to_gcs
 
 logger = structlog.get_logger()
 router = Router[BeautifulSoupCrawlingContext]()
+
 storage_client = storage.Client()
 bucket = storage_client.bucket("scraper-responses")
 dao = ScrapeResponseDAO()
+extractor_dao = ScrapeExtractionDAO()
 
 
 def save_to_gcs(content, building_id):
-    # get_bucket = storage_client.bucket("scraper-responses")
     file_id = uuid6.uuid8()
     filename = f"{file_id}.json"
     upload_string_to_gcs(bucket, json.dumps(content), filename, building_id)
@@ -53,6 +64,7 @@ async def save_scrape_response(context: BeautifulSoupCrawlingContext, cleaned_co
             building_id=building_id,
             error=str(e),
         )
+
 
 @router.default_handler
 async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
@@ -89,7 +101,28 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
         logger.error("No content fetched.", url=context.request.url)
         raise Exception("No content fetched.")
 
+    # title = await context.page.locator('.product-meta h1').text_content()
     await save_scrape_response(context, content_str)
+
+
+def parse_sight_map_content(json_content, building_id) -> list:
+    """Parse sight map content."""
+    units = json_content.get("content").get("data").get("units")
+    extractions = []
+    for i, unit in enumerate(units):
+        extraction = ScrapeExtractionModel(
+            building_id=building_id,
+            scrape_page_id=unit.get("id"),
+            unit_number=unit.get("name"),
+            bed_count=unit.get("bedrooms"),
+            bath_count=unit.get("bathrooms"),
+            sqft=unit.get("sqft"),
+            base_rent=unit.get("rent"),
+            available=unit.get("availability"),
+            additional_attributes=unit,
+        )
+        extractions.append(extraction)
+    return extractions
 
 
 @router.handler("JSON")
@@ -107,20 +140,9 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
     # They get saved in the logs maybe future we pump them to a bad_responses bucket?
     await save_scrape_response(context, json_content)
 
-
-# TODO images
-# @router.handler('BYTES')
-# async def bytes_handler(context: BeautifulSoupCrawlingContext) -> None:
-#     """Default request handler."""
-#     context.log.info(f'Processing {context.request.url} ...')
-#     http_response = context.http_response
-#     content = http_response.read() if http_response else None
-
-#     await context.push_data(
-#         {
-#             'url': context.request.loaded_url,
-#             'response': content if http_response else None,
-#         }
-#     )
-
-#     await context.enqueue_links()
+    # atm all json extractions are sight map
+    extractions = parse_sight_map_content(json_content, building_id)
+    await extractor_dao.add_extractions(extractions)
+    logger.info(
+        "Extraction saved to database.",
+    )

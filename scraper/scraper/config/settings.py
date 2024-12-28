@@ -5,7 +5,6 @@ from pydantic import Field
 from pydantic_settings import BaseSettings
 from yarl import URL
 
-
 from scraper.config.secret_manager import set_env_vars
 
 if os.getenv("ENVIRONMENT") == "LOCAL":
@@ -41,7 +40,7 @@ class Settings(BaseSettings):
     # set by secret_manager
     db_pass: str = Field("", validation_alias="DB_PASS")
     db_name: str = Field("scraper", validation_alias="DB_NAME")
-    db_echo: bool = Field(True, validation_alias="DB_ECHO")
+    db_echo: bool = Field(False, validation_alias="DB_ECHO")
 
     debug_building_limit: int = Field(0, validation_alias="DEBUG_BUILDING_LIMIT")
 
@@ -56,7 +55,7 @@ class Settings(BaseSettings):
         :return: database URL.
         """
         # local postgres URL schema
-        if self.environment == 'LOCAL':
+        if self.environment == "LOCAL":
             return URL.build(
                 scheme="postgresql+asyncpg",
                 host=self.db_host,
@@ -65,8 +64,10 @@ class Settings(BaseSettings):
                 password=self.db_pass,
                 path=f"/{self.db_name}",
             )
-        
-        return URL(f"postgresql+asyncpg://{self.db_user}:{self.db_pass}@/{self.db_name}?host=/cloudsql/austin-rent:us-central1:austin-rent-db")
+
+        return URL(
+            f"postgresql+asyncpg://{self.db_user}:{self.db_pass}@/{self.db_name}?host=/cloudsql/austin-rent:us-central1:austin-rent-db"
+        )
 
 
 settings = Settings()

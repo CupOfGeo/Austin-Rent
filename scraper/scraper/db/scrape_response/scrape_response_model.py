@@ -4,10 +4,10 @@ from sqlalchemy.dialects.postgresql import UUID
 from scraper.db.base import Base
 
 
-class ScrapeResponse(Base):
+class ScrapeResponseModel(Base):
     __tablename__ = "scrape_responses"
 
-    scrape_page_id = Column(Integer, primary_key=True, autoincrement=True)
+    scrape_response_id = Column(Integer, primary_key=True, autoincrement=True)
     file_id = Column(UUID, nullable=False)
     requested_url = Column(String, nullable=False)
     loaded_url = Column(String, nullable=False)

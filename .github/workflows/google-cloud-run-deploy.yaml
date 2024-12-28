@@ -66,6 +66,6 @@ jobs:
           flags: '--add-cloudsql-instances=austin-rent:us-central1:austin-rent-db'
           env_vars: |-
             ENVIRONMENT=DEV
-          
+
       - name: Show Backend URL
         run: echo ${{ steps.deploy.outputs.url }}

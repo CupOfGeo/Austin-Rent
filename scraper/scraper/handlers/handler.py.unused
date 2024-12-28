@@ -1,0 +1,38 @@
+"""
+Was playing around with this idea instead of just function calls we could use an object
+"""
+from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
+from typing import List
+from scraper.db.scrape_extraction.extraction_model import ScrapeExtraction
+
+# import base from pydantic
+class Handler:
+    def __init__(self, context: BeautifulSoupCrawlingContext):
+        self.contest = context
+        self.clean_content = self.validate()
+
+    def setup(self):
+        """
+        does any extra setup to get to the page maybe but we can always enqueue a link with a label
+        """
+        raise NotImplemented
+
+
+    def validate(self) -> str:
+        """
+        validates the returned content
+        """
+        raise NotImplemented
+
+    def extract(self) -> List[ScrapeExtraction]:
+        """
+        Extracts desired fields and returns a list of ScrapeExtraction
+        """
+        raise NotImplemented
+
+
+    def do(self):
+        """
+        does the validating, extraction and saving?
+        """
+        raise NotImplemented
