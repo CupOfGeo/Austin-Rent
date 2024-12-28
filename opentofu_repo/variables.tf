@@ -7,10 +7,6 @@ variable "gcp_project" {
   type        = string
   description = "GCP project name"
 }
-variable "gcp_auth_file" {
-  type        = string
-  description = "GCP authentication file"
-}
 variable "tofu_backend_bucket_name" {
   type        = string
   description = "The name of the Google Storage Bucket to create"
@@ -18,10 +14,6 @@ variable "tofu_backend_bucket_name" {
 variable "storage_class" {
   type        = string
   description = "The storage class of the Storage Bucket to create"
-}
-variable "github_organization" {
-  type        = string
-  description = "The GitHub repository org or user name"
 }
 variable "github_organization_repo" {
   type        = string

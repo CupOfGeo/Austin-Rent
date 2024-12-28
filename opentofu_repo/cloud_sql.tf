@@ -5,6 +5,13 @@ resource "google_sql_database_instance" "austin_rent_instance" {
 
   settings {
     tier = "db-f1-micro"
+    database_flags {
+      name  = "log_temp_files"
+      value = "0"
+    }
+    ip_configuration {
+      ssl_mode = "TRUSTED_CLIENT_CERTIFICATE_REQUIRED"
+    }
   }
 }
 

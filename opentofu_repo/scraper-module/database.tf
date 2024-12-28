@@ -1,3 +1,32 @@
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 3.0.0"
+    }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = ">= 3.0.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 2.0.0"
+    }
+  }
+}
+
+provider "google" {
+  project = var.gcp_project
+  region  = var.gcp_region
+}
+
+provider "google-beta" {
+  project = var.gcp_project
+  region  = var.gcp_region
+}
+
+
 resource "google_sql_database" "scraper" {
   name     = var.service_name
   project  = var.gcp_project
