@@ -12,13 +12,13 @@ resource "google_cloud_run_service" "scraper" {
         }
         resources {
           limits = {
-            "cpu" = "2"
+            "cpu"    = "2"
             "memory" = "1Gi"
           }
         }
         # TODO this isn't great - need to figure out how to pass in the env vars better
         env {
-          name = "ENVIRONMENT"
+          name  = "ENVIRONMENT"
           value = "DEV"
         }
       }
@@ -57,10 +57,10 @@ resource "google_cloud_run_service" "scraper" {
 
 
 resource "google_cloud_scheduler_job" "scraper_job" {
-  name             = "${var.service_name}-cron"
-  description      = "Trigger Cloud Run scraper service every day at 12 PM"
-  schedule         = "0 12 * * *"  # Cron expression for 12 PM daily
-  time_zone        = "Etc/UTC"     # Adjust the time zone if needed
+  name        = "${var.service_name}-cron"
+  description = "Trigger Cloud Run scraper service every day at 12 PM"
+  schedule    = "0 12 * * *" # Cron expression for 12 PM daily
+  time_zone   = "Etc/UTC"    # Adjust the time zone if needed
 
   http_target {
     http_method = "POST"

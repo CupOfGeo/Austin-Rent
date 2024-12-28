@@ -1,38 +1,55 @@
 # Austin Rent
+
 This project will scrape the rents prices form buildings on Rainey St in Austin Tx. The goal of this project will be to product a nice data visualization for reddit.
 This project is more of a devops project than a software project. Ideal I would have an org in a box with a real production best practices.
 
 ## The One Repo To Rule Them All (ORTRTA)
+
 this is the common read me that will spread standards across multiple repos
 
 Main Mermaid diagram
+
 ```mermaid
 ```
 
 ## Github actions
+
 We use github actions but bc we are running a (ORTRTA). You have to manually trigger it and specify the app name so we don't rebuild and deploy ever app on push to main.
 
 Folder name dictates app name same as cloud run name
 
+### Linter
+
+to run locally use
+
+```bash
+docker run --platform linux/amd64 -e DEFAULT_BRANCH=main -e SHELL=/bin/bash \
+  -e LOG_LEVEL=DEBUG \
+  -e RUN_LOCAL=true \
+  -v ~/Code/AustinRent:/tmp/lint \
+  --rm \
+  ghcr.io/super-linter/super-linter:latest
+```
+
 
 ## Database
 Postgres dbs
-https://gist.github.com/kyledcline/9b7e864b89c269beb2c34e55fb0903b0
+[naming conventions](https://gist.github.com/kyledcline/9b7e864b89c269beb2c34e55fb0903b0)
 
 naming convention.
     - underscores for table_name
     - PK should be table_name_id
 
 Connecting to CloudSQL
-https://cloud.google.com/sql/docs/mysql/connect-auth-proxy
+[gcp docs](https://cloud.google.com/sql/docs/mysql/connect-auth-proxy)
 Note: if you are in a dev container use linux 64. Then move it to `mv cloud-sql-proxy ~/.local/bin/`
 
-```
+```bash
 ./cloud-sql-proxy --address 0.0.0.0 --port 5432 austin-rent:us-central1:austin-rent-db
 ```
 
-
 # Secrets
+
 So I have updated this a few times.
 I have created the key with this command and set it as the gh secret.
 `age-keygen -o secrets/austin-rent-key.txt`
@@ -42,9 +59,8 @@ Public key: age1phl53gymlk2rt5fwvdvyeds30w73slkgj8trs6c5nkdf43wzkd2s2mdfx0
 Ok so i just caved and did this for the flyway migration. Probably for the best to just use the gh secretes.
 `gh secret set SCRAPER_APP_PASSWORD < secrets/.env`
 
-
-
 ## Creating a new secret
+
 get the value from [secret manager](https://console.cloud.google.com/security/secret-manager/secret/manual-private-key/versions?project=austin-rent)
 `echo 'export AR_PUBLIC_KEY=age1phl53gymlk2rt5fwvdvyeds30w73slkgj8trs6c5nkdf43wzkd2s2mdfx0' >> ~/.zshrc`
 

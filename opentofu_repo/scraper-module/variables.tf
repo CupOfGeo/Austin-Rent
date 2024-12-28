@@ -17,8 +17,8 @@ variable "zone" {
   default     = "us-central1-a"
 }
 variable "gcp_project" {
- type        = string
- description = "GCP project name"
+  type        = string
+  description = "GCP project name"
 }
 
 variable "db_instance" {

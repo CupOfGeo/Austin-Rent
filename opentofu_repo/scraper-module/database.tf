@@ -1,6 +1,6 @@
 resource "google_sql_database" "scraper" {
   name     = var.service_name
-  project   = var.gcp_project
+  project  = var.gcp_project
   instance = var.db_instance
 }
 
