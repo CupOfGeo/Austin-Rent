@@ -1,3 +1,7 @@
+# install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.cargo/bin:$PATH"
+
 
 # install gcloud 
 sudo apt install python3 python3-pip -y

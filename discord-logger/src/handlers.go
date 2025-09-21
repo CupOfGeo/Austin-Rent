@@ -31,7 +31,7 @@ func messageHandler(w http.ResponseWriter, r *http.Request) {
 	)
 
 	message := DiscordMessage{
-		Content:  "Hello y'all @admins! Check out this awesome embed.",
+		Content:  "Austin Rent Logger",
 		Username: "Captain Hook",
 		Embeds: []Embed{
 			{
