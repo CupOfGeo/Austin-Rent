@@ -1,5 +1,6 @@
 from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
 from crawlee.configuration import Configuration
+from crawlee.storage_clients import MemoryStorageClient
 
 from scraper.Buildings import buildings
 from scraper.config.logging import configure_logging
@@ -14,11 +15,14 @@ async def main() -> None:
     await test_connect()
     configuration = Configuration(
         verbose_log=True,
-    )  # persist_storage=False, write_metadata=False,
+    )
+
     crawler = BeautifulSoupCrawler(
         request_handler=router,
         max_requests_per_crawl=settings.debug_building_limit,
         configuration=configuration,
+        # Disable writing storage data to the file system
+        storage_client = MemoryStorageClient()
     )
 
     await crawler.run(buildings)

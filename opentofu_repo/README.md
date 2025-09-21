@@ -6,6 +6,13 @@ Install <https://opentofu.org/docs/intro/install/standalone/>
 Note: Install gcloud outside of the git repo. I put it in the home directory.
 Install <https://cloud.google.com/sdk/docs/install#linux>
 
+you'll need to run 
+```bash
+gcloud auth login
+gcloud auth application-default login
+```
+
+
 Age keygen
 `sudo apt install age`
 

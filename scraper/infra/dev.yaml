@@ -4,3 +4,5 @@ secrets:
 
 env_vars:
   ENVIRONMENT: DEV
+
+uses_db: true

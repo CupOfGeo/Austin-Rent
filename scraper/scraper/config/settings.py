@@ -9,9 +9,9 @@ from yarl import URL
 from scraper.config.secret_manager import set_env_vars
 
 if os.getenv("ENVIRONMENT") == "LOCAL":
-    set_env_vars("./configs/local.yaml")
+    set_env_vars("./infra/local.yaml")
 else:
-    set_env_vars("./configs/dev.yaml")
+    set_env_vars("./infra/dev.yaml")
 
 
 class Env(str, enum.Enum):
