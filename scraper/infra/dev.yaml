@@ -8,4 +8,9 @@ infra-config:
   env_vars:
     ENVIRONMENT: DEV
 
-  uses_db: true
+  postgres:
+    enabled: true
+    database: scraper
+    instanceName: austin-rent-db
+    username: scraper_app
+    flywayDbMigrationPath: db-migrations

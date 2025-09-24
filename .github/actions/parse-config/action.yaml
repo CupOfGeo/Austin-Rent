@@ -1,0 +1,28 @@
+name: 'Parse Service Config'
+description: >-
+  Parses the services config thats in the infra/ folder
+inputs:
+  current_env:
+    description: 'Target environment'
+    required: false
+    type: string
+    default: dev
+  is_promote:
+    description: 'Is this via promote or cicd'
+    required: false
+    type: boolean
+    default: false
+  app_version:
+    description: 'The needed tag to be promoted'
+    required: false
+    type: string
+  app_name:
+    description: 'The needed app to be promoted'
+    required: false
+    type: string
+outputs:
+  pipe_config: # id of output
+    description: 'Returns config object, refer config object structure cicd/pipe_config.json'
+runs:
+  using: 'node20'
+  main: '../../cicd/config-parser.js'

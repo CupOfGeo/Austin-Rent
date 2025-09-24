@@ -1,0 +1,34 @@
+{
+  "folders": [
+    {
+      "name": "Scraper Service",
+      "path": "./scraper"
+    },
+    {
+      "name": "Discord Logger",
+      "path": "./discord-logger"
+    },
+    {
+      "name": "GitHub Actions",
+      "path": "./.github"
+    },
+    {
+      "name": "GCP-Infa",
+      "path": "./opentofu_repo"
+    },
+    {
+      "name": "Root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "explorer.sortOrder": "foldersNestsFiles",
+    "explorer.fileNesting.enabled": true,
+    "files.exclude": {
+      "scraper/**": true,
+      "discord-logger/**": true,
+      ".github/**": true,
+      "opentofu_repo/**": true
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "parse-service-configs",
+  "version": "1.0.0",
+  "description": "JavaScript utility for parsing service configuration files in GitHub Actions",
+  "main": "config-parser.js",
+  "scripts": {
+    "test": "node test-parser.js"
+  },
+  "keywords": [
+    "github-actions",
+    "config-parser",
+    "yaml",
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "yaml": "^2.8.1"
+  }
+}
