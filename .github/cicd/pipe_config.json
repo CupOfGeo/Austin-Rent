@@ -1,0 +1,86 @@
+{
+  "global": {
+    "image_registry": "us-central1-docker.pkg.dev/np-bl-common",
+    "repo": "",
+    "branch": "",
+    "version": "",
+    "is_promote": false,
+    "is_http_healthCheck": false,
+    "current_env": null,
+    "deploy_base_file": "./infra/deploy-values/base-values.yaml"
+  },
+  "etlTools": {
+    "etlBqMigration": {
+      "enabled": false,
+      "cmdArg": null
+    },
+    "etlJobConfigurator": {
+      "enabled": false,
+      "dbInstanceName": null,
+      "database": null,
+      "cmdArg": null,
+      "topicName": null,
+      "environment": null,
+      "pubsubProject": null
+    }
+  },
+  "standaloneFlywayConfig": {
+    "enabled": false,
+    "config": [
+      {
+        "instanceName": null,
+        "database": null,
+        "sqlPath": null
+      }
+    ]
+  },
+  "db_migration": {
+    "postgres": {
+      "enabled": false,
+      "database": null,
+      "username": null,
+      "sqlPath": null,
+      "instanceName": null
+    }
+  },
+  "deploymentDetail": {
+    "details": [
+      {
+        "appName": null,
+        "postfix": null,
+        "valueFileName": null,
+        "isInfraDeploy": false
+      }
+    ]
+  },
+  "steps": {
+    "tag": false,
+    "test": false,
+    "build": false,
+    "deploy": false
+  },
+  "cmd": {
+    "python": {
+      "test": "pytest"
+    },
+    "go": {
+      "test": "donotknow"
+    }
+  },
+  "development": {
+    "gcp": {
+      "secret_name": "DEVOPS_NP_BL_COMMON",
+      "project": "austin-rent",
+      "svc_acount": "",
+      "email": "",
+      "cluster": [
+        {
+          "name": "bl-core-us-central",
+          "region": "us-central1",
+          "zone": "us-central1-a"
+        }
+      ]
+    },
+    "discord_webhook_url": "DISCORD_WEBHOOK_URL_DEV"
+  }
+}

@@ -12,8 +12,8 @@ resource "google_cloud_run_service" "scraper" {
         }
         resources {
           limits = {
-            "cpu"    = "2"
-            "memory" = "1Gi"
+            "cpu"    = "4"
+            "memory" = "2Gi"
           }
         }
         # TODO this isn't great - need to figure out how to pass in the env vars better

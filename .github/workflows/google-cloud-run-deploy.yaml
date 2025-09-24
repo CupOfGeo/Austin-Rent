@@ -10,6 +10,7 @@ on:
         type: choice
         options:
           - 'scraper'
+          - 'discord-logger'
 
 env:
   PROJECT_ID: "austin-rent"
@@ -20,7 +21,46 @@ env:
   WIF_PROVIDER: 'projects/951404538114/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
 
 jobs:
+
+  parse-config:
+    runs-on: ubuntu-latest
+    outputs:
+      pipe_config: ${{ steps.parse.outputs.pipe_config }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Parse Service Config
+        id: parse
+        uses: ./.github/actions/parse-service-configs
+
+
+  tag:
+    name: Tag Release
+    runs-on: ubuntu-latest
+    needs: [config]
+    if: ${{ needs.config.result == 'success' && fromJSON(needs.config.outputs.pipe_config).steps.tag }}
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          default_bump: minor
+      - name: Create a GitHub release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          generateReleaseNotes: true
+
   deploy:
+    needs: config
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -51,8 +91,6 @@ jobs:
           cd ${{ github.event.inputs.app_name }}/
           docker build --target BUILD -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/${{ github.event.inputs.app_name }}:latest" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/${{ github.event.inputs.app_name }}:latest"
-
-
       # END - Docker auth and build
 
       - name: Deploy Backend to Cloud Run
@@ -62,9 +100,8 @@ jobs:
           service: ${{ github.event.inputs.app_name }}
           region: ${{ env.REGION }}
           image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/${{ github.event.inputs.app_name }}:latest
-          flags: '--add-cloudsql-instances=austin-rent:us-central1:austin-rent-db'
-          env_vars: |-
-            ENVIRONMENT=DEV
+          flags: ${{ steps.config.outputs.uses_db == 'true' && '--add-cloudsql-instances=austin-rent:us-central1:austin-rent-db' || '' }}
+          env_vars: ${{ steps.config.outputs.ENV_VARS }}
 
       - name: Show Backend URL
         run: echo ${{ steps.deploy.outputs.url }}
