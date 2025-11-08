@@ -3,6 +3,12 @@ resource "google_cloud_run_service" "scraper" {
   name     = var.service_name
   location = var.gcp_region
   template {
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale" = "10"
+        "autoscaling.knative.dev/minScale" = "0"
+      }
+    }
     spec {
       service_account_name = google_service_account.scraper_sa.email
       containers {
@@ -12,14 +18,26 @@ resource "google_cloud_run_service" "scraper" {
         }
         resources {
           limits = {
-            "cpu"    = "2"
-            "memory" = "1Gi"
+            "cpu"    = "4"
+            "memory" = "4Gi"
           }
         }
         # TODO this isn't great - need to figure out how to pass in the env vars better
         env {
           name  = "ENVIRONMENT"
           value = "DEV"
+        }
+        env {
+          name  = "CRAWLEE_MAX_USED_CPU_RATIO"
+          value = "0.75"
+        }
+        env {
+          name  = "CRAWLEE_MAX_USED_MEMORY_RATIO"
+          value = "0.75"
+        }
+        env {
+          name  = "CRAWLEE_PURGE_ON_START"
+          value = "true"
         }
       }
     }
@@ -63,7 +81,7 @@ resource "google_cloud_scheduler_job" "scraper_job" {
   time_zone   = "Etc/UTC"    # Adjust the time zone if needed
 
   http_target {
-    http_method = "POST"
+    http_method = "GET"
     uri         = google_cloud_run_service.scraper.status[0].url
     oidc_token {
       service_account_email = google_service_account.scraper_sa.email
