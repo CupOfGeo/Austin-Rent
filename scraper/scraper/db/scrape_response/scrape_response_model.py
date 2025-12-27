@@ -1,3 +1,9 @@
+"""SQLAlchemy model for scrape_responses table.
+
+Stores metadata about each scrape response, including URLs, building ID,
+and a reference to the GCS file containing the full response.
+"""
+
 from sqlalchemy import Column, DateTime, Integer, String, func
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -5,6 +11,8 @@ from scraper.db.base import Base
 
 
 class ScrapeResponseModel(Base):
+    """Represents a raw scrape response metadata record."""
+
     __tablename__ = "scrape_responses"
 
     scrape_response_id = Column(Integer, primary_key=True, autoincrement=True)
@@ -12,5 +20,5 @@ class ScrapeResponseModel(Base):
     requested_url = Column(String, nullable=False)
     loaded_url = Column(String, nullable=False)
     building_id = Column(Integer, nullable=False)
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=func.current_timestamp())
     retry_count = Column(Integer, nullable=False)

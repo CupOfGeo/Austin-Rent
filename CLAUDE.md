@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Write lots of debug logs.
 - Don't do more than is tasked of you. Which means on extra functions then what is agreed upon. if you want to add extra functions or things thats not needed for the current task please ask.
 - Never use emojis or they will set us both on fire
-- Always code in small steps. Don't write too much without giving me a chance to look and or test it. 
+- Always code in small steps. Don't write too much without giving me a chance to look and or test it.
 
 ## Project Overview
 
@@ -31,18 +31,24 @@ AustinRent is a web scraping project that collects rental prices from apartment 
 ### Python/Scraper Development
 
 ```bash
-# Install dependencies (using Poetry)
+# Install dependencies (using uv)
 cd scraper/
-poetry install
+uv sync
 
 # Run the scraper locally
-poetry run python -m scraper
+uv run python -m scraper
 
 # Run tests
-poetry run pytest
+uv run pytest
 
 # Run a single test
-poetry run pytest scraper/tests/test_html_handler.py
+uv run pytest scraper/tests/test_html_handler.py
+
+# Add a new dependency
+uv add <package-name>
+
+# Add a dev dependency
+uv add --dev <package-name>
 ```
 
 ### Pre-commit Hooks
@@ -99,7 +105,7 @@ tofu apply
 
 1. **Entry point:** `scraper/__main__.py` starts a simple webserver (for Cloud Run health checks) and runs the main crawler
 2. **Main crawler:** `scraper/main.py` uses Crawlee BeautifulSoupCrawler with a router-based architecture
-3. **Buildings list:** Hardcoded in `scraper/Buildings.py` as `Request` objects with labels ("JSON" or "HTML") and building IDs
+3. **Buildings list:** Hardcoded in `scraper/buildings.py` as `Request` objects with labels ("JSON" or "HTML") and building IDs
 4. **Routing:** `scraper/handlers/routes.py` routes requests based on label:
    - `json_handler`: Handles JSON API responses (e.g., Sightmap APIs)
    - `html_handler`: Handles HTML scraping (currently partially implemented)
@@ -182,7 +188,7 @@ Database access through DAOs in `scraper/db/*/`:
 
 ## Important Notes
 
-- Building list currently hardcoded in `Buildings.py` (intentionally not database-driven to keep handler routing logic in code)
+- Building list currently hardcoded in `buildings.py` (intentionally not database-driven to keep handler routing logic in code)
 - Extraction service is currently embedded in the scraper; future plan is to separate it for reprocessing capability
 - Cloud Run services require a webserver on port 8080 for health checks (see `utils/simple_webserver.py`)
 - Python version: 3.12

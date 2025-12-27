@@ -1,25 +1,41 @@
+"""
+Handles JSON content validation and extraction for the scraper.
+"""
+
 import json
+from typing import Any, Optional
 
 import structlog
-from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
+from crawlee.crawlers import BeautifulSoupCrawlingContext
 
 from scraper.db.scrape_extraction.extraction_model import ScrapeExtractionModel
 
 logger = structlog.get_logger()
 
 
-async def json_validate(context: BeautifulSoupCrawlingContext) -> dict:
-    """json_validate and return json content."""
-    building_id = context.request.user_data.model_extra.get("building_id")
-    logger.info("Handling", url={context.request.url}, building_id=building_id)
-    http_response = context.http_response
-    try:
-        json_content = json.load(http_response)
-    except json.JSONDecodeError:
-        json_content = None
-        logger.error("Invalid JSON content.", url=context.request.url)
+async def json_validate(
+    context: BeautifulSoupCrawlingContext,
+) -> Optional[dict[str, Any]]:
+    """Validate and return json content from the HTTP response.
 
-    return json_content
+    Args:
+        context: The crawling context containing the HTTP response.
+
+    Returns:
+        The parsed JSON content as a dict, or None if parsing fails.
+    """
+    building_id = context.request.user_data.get("building_id")
+    logger.info("Handling", url={context.request.url}, building_id=building_id)
+
+    try:
+        # In crawlee v1.x, http_response.read() is async
+        response_bytes = await context.http_response.read()
+        response_text = response_bytes.decode("utf-8")
+        json_content: dict[str, Any] = json.loads(response_text)
+        return json_content
+    except json.JSONDecodeError:
+        logger.error("Invalid JSON content.", url=context.request.url)
+        return None
 
 
 async def json_extract(json_content, building_id, scrape_response_id) -> list:

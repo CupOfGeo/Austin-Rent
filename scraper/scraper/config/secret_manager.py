@@ -8,7 +8,7 @@ import base64
 import os
 import subprocess
 import tempfile
-from typing import Optional
+from typing import Any, Optional
 
 import structlog
 import yaml
@@ -39,16 +39,39 @@ def get_gcp_secret(secret_id: str, version_id: str = "latest") -> Optional[str]:
         raise e
 
 
-def load_yaml(yaml_file_path: str) -> dict:
+def load_yaml(yaml_file_path: str) -> dict[str, Any]:
+    """Load and parse a YAML configuration file.
+
+    Args:
+        yaml_file_path: Path to the YAML file to load.
+
+    Returns:
+        dict: Parsed YAML content as a dictionary.
+
+    Raises:
+        Exception: If the YAML file cannot be loaded or parsed.
+    """
     try:
-        with open(yaml_file_path, "r") as yaml_file:
-            yaml_content = yaml.safe_load(yaml_file)
+        with open(yaml_file_path, "r", encoding="utf-8") as yaml_file:
+            yaml_content: dict[str, Any] = yaml.safe_load(yaml_file)
     except Exception as e:
-        raise Exception(f"Error loading YAML file: {e}")
+        raise Exception(f"Error loading YAML file: {e}") from e
     return yaml_content
 
 
 def decrypt_value(encrypted_value: str, private_key_secret: str) -> str:
+    """Decrypt an age-encrypted value using a private key.
+
+    Args:
+        encrypted_value: Base64-encoded encrypted value.
+        private_key_secret: Path to the age private key file.
+
+    Returns:
+        str: The decrypted plaintext value.
+
+    Raises:
+        Exception: If decryption fails.
+    """
     encrypted_bytes = base64.b64decode(encrypted_value)
     result = subprocess.run(
         ["age", "--decrypt", "--identity", private_key_secret],
@@ -61,6 +84,18 @@ def decrypt_value(encrypted_value: str, private_key_secret: str) -> str:
 
 
 def set_env_vars(yaml_file_path: str) -> None:
+    """Load environment variables and decrypt secrets from YAML config.
+
+    Reads a YAML config file containing env_vars and encrypted secrets,
+    decrypts the secrets using age encryption with a GCP-stored private key,
+    and sets them as environment variables.
+
+    Args:
+        yaml_file_path: Path to the YAML configuration file.
+
+    Raises:
+        Exception: If the private key cannot be retrieved from GCP Secret Manager.
+    """
     private_key_secret = get_gcp_secret("manual-private-key")
     if not private_key_secret:
         raise Exception("Env vars NOT set. Failed to retrieve private key secret.")

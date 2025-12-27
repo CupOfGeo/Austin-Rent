@@ -1,9 +1,13 @@
-from datetime import timedelta
+"""Main crawler entry point for the scraper service.
 
-from crawlee.beautifulsoup_crawler import BeautifulSoupCrawler
+Initializes and runs the BeautifulSoupCrawler with configured handlers to scrape
+rental data from apartment buildings. Handles logging setup and database connectivity.
+"""
+
 from crawlee.configuration import Configuration
+from crawlee.crawlers import BeautifulSoupCrawler
 
-from scraper.Buildings import buildings
+from scraper.buildings import buildings
 from scraper.config.logging import configure_logging
 from scraper.config.settings import settings
 from scraper.db.sql_connect import test_connect
@@ -15,12 +19,9 @@ async def main() -> None:
     configure_logging()
     await test_connect()
 
-    # Configure Crawlee for Cloud Run environment with limited resources
+    # Configure Crawlee for Cloud Run environment
     configuration = Configuration(
-        verbose_log=True,
-        max_used_cpu_ratio=0.75,  # Lower threshold for Cloud Run
-        max_used_memory_ratio=0.75,  # Lower threshold for Cloud Run
-        max_event_loop_delay=timedelta(milliseconds=100),
+        log_level="DEBUG",
         purge_on_start=True,  # Clear storage on each run
     )
 
@@ -28,8 +29,6 @@ async def main() -> None:
         request_handler=router,
         max_requests_per_crawl=settings.debug_building_limit,
         configuration=configuration,
-        min_concurrency=1,  # Start with 1 concurrent task
-        max_concurrency=4,  # Max 4 concurrent tasks
     )
 
     await crawler.run(buildings)

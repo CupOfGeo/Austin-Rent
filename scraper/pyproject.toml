@@ -1,42 +1,48 @@
-[tool.poetry]
+[project]
 name = "scraper"
 version = "0.0.1"
 description = "beautifulsoup crawler"
-authors = ["George Mazzeo <mazzeogeorge@gmail.com>"]
+authors = [{ name = "George Mazzeo", email = "mazzeogeorge@gmail.com" }]
 readme = "README.md"
-package-mode = false
-packages = [
-    { include = "scraper" }
+requires-python = ">=3.12"
+dependencies = [
+    "asyncpg>=0.31.0",
+    "crawlee[beautifulsoup]>=1.2.1",
+    "google-cloud-secret-manager>=2.26.0",
+    "google-cloud-storage>=3.7.0",
+    "psycopg>=3.3.2",
+    "pydantic-settings>=2.12.0",
+    "sqlalchemy>=2.0.45",
+    "structlog-gcp>=0.5.0",
+    "uuid6>=2025.0.1",
+    "yarl>=1.22.0",
 ]
-
-[tool.poetry.scripts]
-scraper = "scraper:main"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-crawlee = {version = "*", extras = ["beautifulsoup"]}
-google-cloud-pubsub = "^2.27.1"
-google-cloud-storage = "^2.18.2"
-uuid6 = "^2024.7.10"
-structlog-gcp = "^0.3.0"
-structlog = "^24.4.0"
-google-cloud-secret-manager = "^2.21.1"
-pydantic-settings = "^2.6.1"
-psycopg = "^3.2.3"
-sqlalchemy = "^2.0.36"
-asyncpg = "^0.30.0"
-pytest = "^8.3.4"
-pytest-asyncio = "^0.24.0"
-yarl = "^1.18.3"
-
-[tool.poetry.group.dev.dependencies]
-pytest-asyncio = "^0.24.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["scraper/tests"]
 pythonpath = ["."]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "pre-commit>=4.5.1",
+    "pylint>=4.0.4",
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "ty>=0.0.6",
+    "types-beautifulsoup4>=4.12.0.20250516",
+    "types-pyyaml>=6.0.12.20250915",
+]
