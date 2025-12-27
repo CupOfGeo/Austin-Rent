@@ -7,9 +7,9 @@ from unittest.mock import Mock, patch
 import pytest
 from crawlee import Request
 
-# Mock the storage.Client initialization
+# Mock the storage.Client initialization before importing routes
 with patch("google.cloud.storage.Client", new=Mock()):
-    from scraper.routes import router as my_router
+    from scraper.handlers.routes import router as my_router
 
 
 class MockHttpResponse:

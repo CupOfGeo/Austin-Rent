@@ -1,16 +1,19 @@
 """
 Routes for the scraper.
 
-For now out of convenient and speed well just do the extraction here. It should go to extractor in the future -
-    This will enable reprocessing of the data
-    and also allow us to have different scrapers if we wanted to start using vendors
+For now out of convenience and speed we'll just do the extraction here.
+It should go to extractor in the future:
+    - This will enable reprocessing of the data
+    - Allow us to have different scrapers if we wanted to start using vendors
 """
 
 import structlog
 from crawlee.crawlers import BeautifulSoupCrawlingContext
 from crawlee.router import Router
 from google.cloud import storage  # type: ignore[attr-defined]
+from sqlalchemy.exc import SQLAlchemyError
 
+from scraper.config.settings import settings
 from scraper.db.scrape_extraction.extraction_dao import ScrapeExtractionDAO
 from scraper.db.scrape_response.scrape_response_dao import ScrapeResponseDAO
 from scraper.handlers.handler_utils import HandlerDependencies
@@ -31,7 +34,7 @@ router = Router[BeautifulSoupCrawlingContext]()
 # router = RouterSingleton.get_router()
 
 deps = HandlerDependencies(
-    storage.Client().bucket("scraper-responses"),
+    storage.Client(project=settings.gcp_project).bucket("scraper-responses"),
     ScrapeResponseDAO(),
     ScrapeExtractionDAO(),
 )
@@ -82,6 +85,6 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
                 )
                 await deps.extractor_dao.add_extractions(extractions)
                 logger.info("Extraction saved to database.")
-            except Exception as e:
+            except (AttributeError, TypeError, KeyError, SQLAlchemyError) as e:
                 logger.error("Failed to save extractions to database.", error=str(e))
                 # dont raise error or it will retry to scrape the page just log it
