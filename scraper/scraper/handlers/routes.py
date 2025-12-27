@@ -7,9 +7,9 @@ For now out of convenient and speed well just do the extraction here. It should 
 """
 
 import structlog
-from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
+from crawlee.crawlers import BeautifulSoupCrawlingContext
 from crawlee.router import Router
-from google.cloud import storage
+from google.cloud import storage  # type: ignore[attr-defined]
 
 from scraper.db.scrape_extraction.extraction_dao import ScrapeExtractionDAO
 from scraper.db.scrape_response.scrape_response_dao import ScrapeResponseDAO
@@ -40,13 +40,19 @@ deps = HandlerDependencies(
 @router.default_handler
 async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
-    building_id = context.request.user_data.model_extra.get("building_id")
+    building_id = context.request.user_data.get("building_id")
     logger.info("PASSING", url={context.request.url}, building_id=building_id)
 
 
 @router.handler("HTML")
 async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
-    building_id = context.request.user_data.model_extra.get("building_id")
+    """
+    Docstring for html_handler
+
+    :param context: Description
+    :type context: BeautifulSoupCrawlingContext
+    """
+    building_id: int = context.request.user_data.get("building_id")  # type: ignore[assignment]
     clean_content = await html_validate(context, building_id)
     if clean_content:
         scrape_response_id = await deps.save_scrape_response(
@@ -60,7 +66,8 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
 
 @router.handler("JSON")
 async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
-    building_id = context.request.user_data.model_extra.get("building_id")
+    """Handler for processing JSON responses."""
+    building_id = context.request.user_data.get("building_id")
     clean_content = await json_validate(context)
     if clean_content:
         # We should save invalid page for debugging?
@@ -74,9 +81,7 @@ async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
                     clean_content, building_id, scrape_response_id
                 )
                 await deps.extractor_dao.add_extractions(extractions)
-                logger.info(
-                    "Extraction saved to database.",
-                )
+                logger.info("Extraction saved to database.")
             except Exception as e:
                 logger.error("Failed to save extractions to database.", error=str(e))
                 # dont raise error or it will retry to scrape the page just log it

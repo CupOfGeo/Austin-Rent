@@ -1,10 +1,14 @@
+"""Utility functions for interacting with Google Cloud Storage buckets.
+
+Provides helpers for uploading content to GCS and retrieving bucket objects.
+"""
+
 import structlog
-from google.cloud import storage
+from google.cloud import storage  # type: ignore[attr-defined, unused-ignore]
 
 logger = structlog.get_logger()
 
 
-# TODO 1: Implement the get_bucket function that returns a GCS bucket.
 # TODO 2: https://talkiq.github.io/gcloud-aio/index.html async bucket uploads
 def get_bucket(bucket_name: str) -> storage.bucket.Bucket:
     """Returns a GCS bucket."""

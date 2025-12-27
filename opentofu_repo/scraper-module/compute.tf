@@ -1,28 +1,21 @@
-# TODO look into google_cloud_run_v2_service
-resource "google_cloud_run_service" "scraper" {
+resource "google_cloud_run_v2_job" "scraper" {
   name     = var.service_name
   location = var.gcp_region
+
   template {
-    metadata {
-      annotations = {
-        "autoscaling.knative.dev/maxScale" = "10"
-        "autoscaling.knative.dev/minScale" = "0"
-      }
-    }
-    spec {
-      service_account_name = google_service_account.scraper_sa.email
+    template {
+      service_account = google_service_account.scraper_sa.email
+
       containers {
         image = "us-central1-docker.pkg.dev/${var.gcp_project}/${var.image_repo}/${var.service_name}:latest"
-        ports {
-          container_port = 8080
-        }
+
         resources {
           limits = {
-            "cpu"    = "4"
-            "memory" = "4Gi"
+            cpu    = "4"
+            memory = "4Gi"
           }
         }
-        # TODO this isn't great - need to figure out how to pass in the env vars better
+
         env {
           name  = "ENVIRONMENT"
           value = "DEV"
@@ -39,56 +32,42 @@ resource "google_cloud_run_service" "scraper" {
           name  = "CRAWLEE_PURGE_ON_START"
           value = "true"
         }
+
+        volume_mounts {
+          name       = "cloudsql"
+          mount_path = "/cloudsql"
+        }
+      }
+
+      volumes {
+        name = "cloudsql"
+        cloud_sql_instance {
+          instances = ["austin-rent:us-central1:austin-rent-db"]
+        }
       }
     }
+
+    # Job execution configuration
+    task_count  = 1
+    parallelism = 1
   }
 }
 
-
-
-# resource "google_cloud_run_v2_service" "default" {
-#   name     = var.service_name
-#   location = var.gcp_region
-
-#   template {
-#     containers {
-#       image = "us-central1-docker.pkg.dev/${var.gcp_project}/${var.image_repo}/${var.service_name}:latest"
-
-#       volume_mounts {
-#         name       = "cloudsql"
-#         mount_path = "/cloudsql"
-#       }
-#     }
-#     volumes {
-#       name = "cloudsql"
-#       cloud_sql_instance {
-#         instances = [google_sql_database_instance.default.connection_name]
-#       }
-#     }
-#   }
-#   client     = "terraform"
-#   depends_on = [google_project_service.secretmanager_api, google_project_service.cloudrun_api, google_project_service.sqladmin_api]
-# }
-
-
-
-
-
 resource "google_cloud_scheduler_job" "scraper_job" {
   name        = "${var.service_name}-cron"
-  description = "Trigger Cloud Run scraper service every day at 12 PM"
-  schedule    = "0 12 * * *" # Cron expression for 12 PM daily
-  time_zone   = "Etc/UTC"    # Adjust the time zone if needed
+  description = "Trigger Cloud Run scraper job every day at 12 PM"
+  schedule    = "0 12 * * *"
+  time_zone   = "Etc/UTC"
 
   http_target {
-    http_method = "GET"
-    uri         = google_cloud_run_service.scraper.status[0].url
-    oidc_token {
+    http_method = "POST"
+    uri         = "https://${var.gcp_region}-run.googleapis.com/v2/projects/${var.gcp_project}/locations/${var.gcp_region}/jobs/${var.service_name}:run"
+
+    oauth_token {
       service_account_email = google_service_account.scraper_sa.email
     }
   }
 }
-
 
 resource "google_service_account" "scraper_sa" {
   account_id   = "scraper-sa"
@@ -103,11 +82,10 @@ resource "google_storage_bucket_iam_member" "storage" {
 
 resource "google_project_iam_member" "scheduler_invoker" {
   project = var.gcp_project
-  role    = "roles/run.invoker"
+  role    = "roles/run.developer"
   member  = "serviceAccount:${google_service_account.scraper_sa.email}"
 }
 
-# TODO don't manually make this secret - one time init thing
 resource "google_secret_manager_secret_iam_member" "scraper_db_password_access" {
   secret_id = "manual-private-key"
   role      = "roles/secretmanager.secretAccessor"

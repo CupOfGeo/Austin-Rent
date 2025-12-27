@@ -1,7 +1,8 @@
 """
 Routes for the scraper.
 
-For now out of convenient and speed well just do the extraction here. It should go to extractor in the future -
+For now out of convenient and speed well just do the extraction here.
+It should go to extractor in the future -
     This will enable reprocessing of the data
     and also allow us to have different scrapers if we wanted to start using vendors
 """
@@ -11,9 +12,9 @@ import json
 import structlog
 import uuid6
 from bs4 import BeautifulSoup
-from crawlee.beautifulsoup_crawler import BeautifulSoupCrawlingContext
+from crawlee.crawlers import BeautifulSoupCrawlingContext
 from crawlee.router import Router
-from google.cloud import storage
+from google.cloud import storage  # type: ignore[attr-defined]
 
 from scraper.db.scrape_extraction.extraction_dao import ScrapeExtractionDAO
 from scraper.db.scrape_extraction.extraction_model import ScrapeExtractionModel
@@ -30,6 +31,15 @@ extractor_dao = ScrapeExtractionDAO()
 
 
 def save_to_gcs(content, building_id):
+    """Save scraped content to Google Cloud Storage bucket.
+
+    Args:
+        content: The scraped content to save (will be JSON serialized).
+        building_id: The ID of the building being scraped.
+
+    Returns:
+        UUID: The generated file ID for the saved content.
+    """
     file_id = uuid6.uuid8()
     filename = f"{file_id}.json"
     upload_string_to_gcs(bucket, json.dumps(content), filename, building_id)
@@ -37,7 +47,16 @@ def save_to_gcs(content, building_id):
 
 
 async def save_scrape_response(context: BeautifulSoupCrawlingContext, cleaned_content):
-    building_id = context.request.user_data.model_extra.get("building_id")
+    """Save scrape response metadata and content to GCS and database.
+
+    Args:
+        context: The Crawlee crawling context containing request metadata.
+        cleaned_content: The cleaned content to save (HTML or JSON).
+
+    Note:
+        Does not raise exceptions on failure to prevent Crawlee retries.
+    """
+    building_id = context.request.user_data.get("building_id")
     scrape_response = {
         "metadata": {
             "requested_url": context.request.url,
@@ -69,17 +88,18 @@ async def save_scrape_response(context: BeautifulSoupCrawlingContext, cleaned_co
 @router.default_handler
 async def default_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
-    building_id = context.request.user_data.model_extra.get("building_id")
+    building_id = context.request.user_data.get("building_id")
     logger.info("PASSING", url={context.request.url}, building_id=building_id)
 
 
 @router.handler("HTML")
 async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
-    building_id = context.request.user_data.model_extra.get("building_id")
+    building_id = context.request.user_data.get("building_id")
     logger.info("Handling", url={context.request.url}, building_id=building_id)
     http_response = context.http_response
-    content = http_response.read() if http_response else None
+    # In crawlee v1.x, http_response.read() is async
+    content = await http_response.read() if http_response else None
     if content:
         try:
             content_str = content.decode("utf-8")
@@ -87,8 +107,7 @@ async def html_handler(context: BeautifulSoupCrawlingContext) -> None:
             if content_str == str(BeautifulSoup(content_str, "html.parser")):
                 logger.error("Invalid HTML content.")
                 raise Exception("Invalid HTML content.")
-            else:
-                logger.debug("Valid HTML content.")
+            logger.debug("Valid HTML content.")
         except Exception as e:
             logger.error(
                 "An error occurred while parsing HTML content.",
@@ -109,7 +128,7 @@ def parse_sight_map_content(json_content, building_id) -> list:
     """Parse sight map content."""
     units = json_content.get("content").get("data").get("units")
     extractions = []
-    for i, unit in enumerate(units):
+    for unit in units:
         extraction = ScrapeExtractionModel(
             building_id=building_id,
             scrape_page_id=unit.get("id"),
@@ -128,11 +147,14 @@ def parse_sight_map_content(json_content, building_id) -> list:
 @router.handler("JSON")
 async def json_handler(context: BeautifulSoupCrawlingContext) -> None:
     """Default request handler."""
-    building_id = context.request.user_data.model_extra.get("building_id")
+    building_id = context.request.user_data.get("building_id")
     logger.info("Handling", url={context.request.url}, building_id=building_id)
     http_response = context.http_response
     try:
-        json_content = json.load(http_response)
+        # In crawlee v1.x, http_response.read() is async
+        response_bytes = await http_response.read()
+        response_text = response_bytes.decode("utf-8")
+        json_content = json.loads(response_text)
     except json.JSONDecodeError:
         json_content = None
         logger.error("Invalid JSON content.", url=context.request.url)

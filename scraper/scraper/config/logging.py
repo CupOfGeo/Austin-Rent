@@ -1,5 +1,10 @@
 # Copyright (c) 2024 BlackLocus, Inc. All rights reserved.
 
+"""Logging configuration for the scraper.
+
+Sets up structured JSON logging using structlog with GCP-friendly formatting.
+"""
+
 import logging
 
 import structlog

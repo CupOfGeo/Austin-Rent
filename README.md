@@ -57,7 +57,7 @@ Connecting to CloudSQL
 Note: if you are in a dev container use linux 64. Then move it to `mv cloud-sql-proxy ~/.local/bin/`
 
 ```bash
-./cloud-sql-proxy --address 0.0.0.0 --port 5432 austin-rent:us-central1:austin-rent-db
+cloud-sql-proxy --address 0.0.0.0 --port 5432 austin-rent:us-central1:austin-rent-db
 ```
 
 ## Secrets

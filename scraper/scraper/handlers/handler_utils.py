@@ -1,3 +1,5 @@
+"""Utility classes and functions for request handlers."""
+
 import json
 from typing import Optional
 
@@ -44,7 +46,16 @@ class HandlerDependencies:
     async def save_scrape_response(
         self, request: Request, cleaned_content
     ) -> Optional[int]:
-        building_id = request.user_data.model_extra.get("building_id")
+        """Save scrape response to GCS and database.
+
+        Args:
+            request: The crawlee request object containing URL and metadata.
+            cleaned_content: The validated/cleaned content from the response.
+
+        Returns:
+            The scrape_response_id if successful, None if an error occurred.
+        """
+        building_id = request.user_data.get("building_id")
         # Should i use this object instead of a dict?
         # ScrapeResponse(
         #     request.url,
@@ -65,7 +76,7 @@ class HandlerDependencies:
 
         try:
             file_id = self.save_to_gcs(scrape_response, building_id)
-            scrape_response_id = await self.response_dao.add_scrape_response(
+            scrape_response_id: int = await self.response_dao.add_scrape_response(
                 scrape_response, file_id
             )
             logger.info(

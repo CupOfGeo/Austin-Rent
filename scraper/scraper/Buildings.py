@@ -1,8 +1,16 @@
+"""Building configuration for the scraper.
+
+Contains the hardcoded list of buildings to scrape, with their URLs and request labels.
+Labels (JSON, HTML) determine which handler route processes each building's response.
+Intentionally kept as code rather than database to maintain routing logic clarity.
+"""
+
 from crawlee import Request
 
 """
-I have been going back and forth on making this a database table but because well have so few rows
-I also think that the label which dictates which route handler we use shouldn't be coded to the database.
+I have been going back and forth on making this a database table but because
+well have so few rows. I also think that the label which dictates which route
+handler we use shouldn't be coded to the database.
 I'm leaving in the db migration empty table but will remove the daos and models.
 """
 buildings = [

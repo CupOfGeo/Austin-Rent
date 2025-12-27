@@ -1,3 +1,5 @@
+"""Application settings and configuration management."""
+
 import enum
 import os
 from typing import Optional
@@ -48,7 +50,6 @@ class Settings(BaseSettings):
     )
 
     logging_level: str = Field("INFO", validation_alias="LOGGING_LEVEL")
-    webserver_port: int = Field(8080, validation_alias="WEBSERVER_PORT")
 
     @property
     def db_url(self) -> URL:
