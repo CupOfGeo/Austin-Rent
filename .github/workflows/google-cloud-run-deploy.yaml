@@ -63,4 +63,4 @@ jobs:
             --region=${{ env.REGION }}
 
       - name: Show Job Name
-        run: echo "Deployed job: ${{ github.event.inputs.app_name }}"
+        run: echo "Deployed job ${{ github.event.inputs.app_name }}"
